@@ -7,59 +7,61 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)"> 
+    <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" href="./img/logo.jpg" type="image/jpg">
     <title>Tim Lukey Music </title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body class="index-page">
-    <header>
-        
-        <div class="tabs">
-            <a href="./index.html" class="tab-active">Home</a>
-        </div>
-    </header>
-    
-    <div class="content-container">
-                    <h1 class="about-title">Coming soon</h1>
-        <main class="index-page">
-                    <div id="video">
-                        <video width="100%" height="auto" autoplay="autoplay" muted>
-                            <source src="./Files/Intro.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-                        </video>
-                    </div>
-        </main>
+<header>
+    <div class="tabs">
+        <a href="./index.html" class="tab-active">Home</a>
     </div>
-    
-    <footer>
-        <p>All rights reserved &copy; Timothy Lukey 2024 / <a class="link-nav" href="./games/Policy.html">Policy</a></p>
-    </footer>
-    
-    <script>
-       $(document).ready(function() {
-    // Check if the video has already played or if the page was hard refreshed
-    if (!localStorage.getItem('videoPlayed') || performance.navigation.type === 1) {
-        // If not, play the video
-        var video = $('#video video')[0];
-        video.play();
+</header>
 
-        // Define the play duration in milliseconds (e.g., 5000 for 5 seconds)
-        var playDuration = 6800;
+<div class="content-container">
+    <h1 class="about-title">Coming soon</h1>
+    <main class="index-page">
+        <div id="video">
+            <video width="100%" height="auto" autoplay="autoplay" muted>
+                <source src="./Files/Intro.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+            </video>
+        </div>
+    </main>
+</div>
 
-        // Use setTimeout to stop the video and start fading it out after the play duration
-        setTimeout(function() {
-            video.pause();
-            $(video).fadeOut(100, function() { $(this).remove(); });
-        }, playDuration);
+<footer>
+    <p>All rights reserved &copy; Timothy Lukey 2024 / <a class="link-nav" href="./games/Policy.html">Policy</a></p>
+</footer>
 
-        // Set the flag in localStorage to indicate that the video has played
-        localStorage.setItem('videoPlayed', 'true');
-    } else {
-        // If the video has already played, remove the video element
-        $('#video video').remove();
-    }
-});
-    </script>
+<script>
+    $(document).ready(function () {
+        let performanceEntries = performance.getEntriesByType("navigation");
+
+        if (performanceEntries.length > 0) {
+            let navigationType = performanceEntries[0].type;
+
+            if (!localStorage.getItem('videoPlayed') || navigationType === 'reload') {
+                var video = $('#video video')[0];
+                video.muted = true;
+                video.play();
+
+                var playDuration = 6800;
+
+                setTimeout(function () {
+                    video.pause();
+                    $(video).fadeOut(100, function () {
+                        $(this).remove();
+                    });
+                }, playDuration);
+
+                localStorage.setItem('videoPlayed', 'true');
+            } else {
+                $('#video video').remove();
+            }
+        }
+    });
+</script>
 </body>
 
 </html>
