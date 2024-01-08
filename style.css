@@ -42,6 +42,10 @@ html {
 }
 
 body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/img/logo.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
     background-color: var(--colour-body);
     color: var(--colour-text);
     margin: 0;
@@ -56,6 +60,10 @@ body {
     font-family: var(--active-fontFamily);
     font-size: var(--active-fontSize);
 }
+.content-container {
+    max-width: 1920px;
+    margin: 0 auto;
+}
 
 @media only screen and (max-width: 620px) {
     body {
@@ -69,11 +77,9 @@ header {
     color: var(--colour-white);
     width: 80%;
     height: 60px;
-    /* min-height: 60px;
-    max-height: 60px; */
     padding: 0 10%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -110,7 +116,7 @@ p {
 
 .tabs {
     /* background-color: red; */
-    width: fit-content;
+    width: auto;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -129,9 +135,9 @@ p {
 }
 
 .tab-active {
-    color: var(--colour-accent);
+    /*color: var(--colour-accent);*/
     font-weight: bold;
-    font-style: italic;
+    /*font-style: italic;*/
 }
 
 main {
@@ -397,4 +403,17 @@ a>svg {
     font-size: calc(var(--active-fontSize) / 1.2);
     grid-column-start: 1;
     grid-column-end: 3;
+}
+.index-page header {
+    z-index: 1;
+}
+
+.index-page #video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 0; /* This will ensure that the video is behind the header */
 }

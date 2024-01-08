@@ -4,51 +4,62 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)"> 
     <link rel="shortcut icon" href="./img/logo.jpg" type="image/jpg">
-    <title>Guitarist | Tim Lukey Music </title>
+    <title>Tim Lukey Music </title>
     <link rel="stylesheet" href="./style.css">
-    <!-- <script src="./main.js"></script> -->
 </head>
-
-<body>
+<body class="index-page">
     <header>
-        <a class="logo" href="./index.html"><img src="./img/logo.jpg" alt="Blindsided Games"></a>
+        
         <div class="tabs">
-            <a href="./index.html" class="tab-active">Guitarist</a>
-            <a href="./index.html">Arranger</a>
-            <a href="./index.html">Composer</a>
-            <a href="./index.html">Songwriter</a>
-            <a href="./index.html">Producer</a>
-            <a href="./index.html">Testimonials</a>
-            <a href="./index.html">Contact</a>
-            
+            <a href="./index.html" class="tab-active">Home</a>
         </div>
     </header>
-    <main>
-         <section class="about-me">
-            <img class="about-portrait" src="./img/logo.jpg" alt="blindsided games">
-            <div class="about-info">
-                <h3 class="about-title">Coming soon</h3>
-                 <audio controls><source src="./Tim%20Lukey%20-%20Directions%20-%2005%20Barcelona.mp3" type="audio/mpeg">Your browser does not support the audio tag.</audio>
-                <div id="video">
-                <video width="100%" height="auto" autoplay="autoplay">
-                  <source src="./Final%20musician%20profile.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-                  <source src="./Final%20musician%20profile.mp4" type='video/ogg; codecs="theora, vorbis"'>
-                </video>
-                </div>
-
-                <p class="about-text">
-                    Coming soon
-                </p>
-            </div>
-        </section>
-    </main>
+    
+    <div class="content-container">
+                    <h1 class="about-title">Coming soon</h1>
+        <main class="index-page">
+                    <div id="video">
+                        <video width="100%" height="auto" autoplay="autoplay" muted>
+                            <source src="./Files/Intro.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
+                        </video>
+                    </div>
+        </main>
+    </div>
+    
     <footer>
         <p>All rights reserved &copy; Timothy Lukey 2024 / <a class="link-nav" href="./games/Policy.html">Policy</a></p>
     </footer>
+    
+    <script>
+       $(document).ready(function() {
+    // Check if the video has already played or if the page was hard refreshed
+    if (!localStorage.getItem('videoPlayed') || performance.navigation.type === 1) {
+        // If not, play the video
+        var video = $('#video video')[0];
+        video.play();
+
+        // Define the play duration in milliseconds (e.g., 5000 for 5 seconds)
+        var playDuration = 6800;
+
+        // Use setTimeout to stop the video and start fading it out after the play duration
+        setTimeout(function() {
+            video.pause();
+            $(video).fadeOut(100, function() { $(this).remove(); });
+        }, playDuration);
+
+        // Set the flag in localStorage to indicate that the video has played
+        localStorage.setItem('videoPlayed', 'true');
+    } else {
+        // If the video has already played, remove the video element
+        $('#video video').remove();
+    }
+});
+    </script>
 </body>
 
 </html>
