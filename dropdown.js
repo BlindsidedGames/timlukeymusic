@@ -2,7 +2,7 @@
 const dropdownButton = document.querySelector('.dropdown-button');
 const tabs = document.querySelector('.tabs');
 
-// Ensure the tabs are hidden on page load if the screen width is under 768px
+// Ensure the tabs are hidden on page load if the screen width is under 900px
 if (window.innerWidth < 900) {
     tabs.style.display = 'none';
 }
