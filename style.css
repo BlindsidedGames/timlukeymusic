@@ -60,6 +60,7 @@ body {
     font-family: var(--active-fontFamily);
     font-size: var(--active-fontSize);
 }
+
 .content-container {
     max-width: 1920px;
     margin: 0 auto;
@@ -67,6 +68,11 @@ body {
 
 @media only screen and (max-width: 620px) {
     body {
+        margin: 0;
+        font-size: 3vw;
+    }
+
+    p {
         margin: 0;
         font-size: 3vw;
     }
@@ -79,11 +85,11 @@ header {
     height: 60px;
     padding: 0 10%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
-header a, 
+header a,
 .link-nav {
     color: var(--colour-navText);
 }
@@ -94,35 +100,32 @@ p {
     font-size: var(--active-fontSize);
 }
 
-@media only screen and (max-width: 620px) {
-    p {
-        margin: 0;
-        font-size: 3vw;
-    }
-}
-
 .logo {
     /* background-color: red; */
     width: 40px;
     height: 40px;
 }
 
-.logo>img {
+.logo > img {
     width: 40px;
     height: 40px;
     object-fit: cover;
     border-radius: 5px;
 }
 
-.tabs {
-    /* background-color: red; */
-    width: auto;
+/*.tabs {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    display: none;
+    !*width: auto;
     height: 100%;
-    display: flex;
     justify-content: center;
     align-items: center;
-    gap: 40px;
-}
+    gap: 40px;*!
+}*/
 
 .storeLinks {
     /* background-color: red; */
@@ -131,7 +134,7 @@ p {
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
 
 .tab-active {
@@ -165,87 +168,6 @@ footer {
     align-items: center;
 }
 
-.games {
-    /* background-color: red; */
-    width: 100%;
-    max-width: 1920px;
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(3, calc(calc(100% - 20px) / 3));
-    grid-template-rows: auto;
-    gap: 10px;
-}
-
-@media only screen and (max-width: 800px) {
-    .games {
-        /* background-color: red; */
-        width: 100%;
-        height: auto;
-        display: grid;
-        grid-template-columns: repeat(1, calc(calc(100% - 20px) / 1));
-        grid-template-rows: auto;
-        gap: 10px;
-    }
-}
-
-.game-widget {
-    /* background-color: red; */
-    width: 100%;
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-}
-
-.game-widget>img {
-    background-color: var(--colour-socials);
-    width: 100%;
-    aspect-ratio: 1.5;
-    border-radius: 5px;
-    overflow: hidden;
-    object-fit: cover;
-    object-position: center;
-}
-
-.game-widget>h3 {
-    /* background-color: orangered; */
-    width: 100%;
-    height: 30px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    text-overflow: ellipsis;
-}
-
-@media only screen and (max-width: 600px) {
-    .game-widget>h3 {
-        font-size: 3vw;
-    }
-}
-
-.game-widget>p {
-    /* background-color: blue; */
-    color: var(--colour-accent);
-    width: 100%;
-    height: 30px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    font-size: 16px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    /* -ms-text-overflow: ellipsis;
-    -o-text-overflow: ellipsis; */
-}
-
-@media only screen and (max-width: 600px) {
-    .game-widget>p {
-        font-size: 3vw;
-    }
-}
 
 .socials {
     /* background-color: red; */
@@ -257,8 +179,8 @@ footer {
     gap: 40px;
 }
 
-.socials>a,
-a>svg {
+.socials > a,
+a > svg {
     height: 30px;
     color: var(--colour-accent);
 }
@@ -404,6 +326,7 @@ a>svg {
     grid-column-start: 1;
     grid-column-end: 3;
 }
+
 .index-page header {
     z-index: 1;
 }
@@ -417,3 +340,55 @@ a>svg {
     object-fit: contain;
     z-index: 0; /* This will ensure that the video is behind the header */
 }
+
+.dropdown-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none; /* Hide the dropdown button on desktop */
+    margin-right: auto; /* Push the button to the left */
+}
+
+.dropdown-line {
+    width: 30px;
+    height: 3px;
+    background: var(--colour-navText);
+    margin: 4px 0;
+}
+
+.tabs {
+    background-color: var(--colour-naf);
+    position: absolute;
+    top: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: column;
+    display: flex; /* Always display the tabs on desktop */
+}
+
+.tabs a {
+    padding: 10px; /* Adjust this value as needed */
+}
+
+@media screen and (max-width: 900px) {
+    .dropdown-button {
+        display: block; /* Show the dropdown button on mobile */
+    }
+
+    .tabs {
+        display: none; /* Hide the tabs on mobile */
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .tabs {
+        flex-direction: row; /* Make the tabs align horizontally on desktop */
+    }
+}
+
+header {
+    display: flex;
+    justify-content: center; /* Center the tabs on desktop */
+    align-items: center;
+}
+
