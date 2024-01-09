@@ -176,29 +176,6 @@ main {
     }
 }
 
-/*.video-content {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.video-content div {
-    font-size: 24px;
-    font-weight: bold;
-}*/
-
-/*.video-content iframe {
-    position: absolute;
-    top: 30px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 60px);
-}*/
 
 footer {
     background-color: var(--colour-naf);
@@ -372,15 +349,6 @@ a > svg {
     grid-column-end: 3;
 }
 
-.index-page #video video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    z-index: 0; /* This will ensure that the video is behind the header */
-}
 
 .dropdown-button {
     z-index: 2;
@@ -444,9 +412,3 @@ header {
     justify-content: center;
     align-items: center;
 }
-
-/*iframe {
-    flex: 1 0 auto;
-    margin: 10px;
-}*/
-

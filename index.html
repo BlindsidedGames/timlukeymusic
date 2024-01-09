@@ -33,49 +33,11 @@
 
 <div class="content-container">
     <h1 class="about-title">Coming soon</h1>
-    <main class="index-page">
-        <div id="video">
-            <video width="100%" height="auto" autoplay="autoplay" muted>
-                <source src="./Files/Intro.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"'>
-            </video>
-        </div>
-    </main>
 </div>
 
 <footer>
     <p>All rights reserved &copy; Timothy Lukey 2024 / <a class="link-nav" href="./games/Policy.html">Policy</a></p>
 </footer>
-
-<script>
-    $(document).ready(function () {
-        let performanceEntries = performance.getEntriesByType("navigation");
-
-        if (performanceEntries.length > 0) {
-            let navigationType = performanceEntries[0].type;
-
-            if (!localStorage.getItem('videoPlayed') || navigationType === 'reload') {
-                var video = $('#video video')[0];
-                video.muted = true;
-                video.play();
-
-                var playDuration = 6800;
-
-                setTimeout(function () {
-                    video.pause();
-                    $(video).fadeOut(100, function () {
-                        $(this).remove();
-                    });
-                }, playDuration);
-
-                localStorage.setItem('videoPlayed', 'true');
-            } else {
-                $('#video video').remove();
-            }
-        }
-    });
-
-
-</script>
 <script src="dropdown.js"></script>
 </body>
 
