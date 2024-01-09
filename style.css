@@ -36,6 +36,11 @@ textarea::placeholder {
     color: var(--colour-socials);
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 html {
     width: 100vw;
     height: 100vh;
@@ -47,23 +52,28 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-color: var(--colour-body);
+    background-attachment: fixed;
     color: var(--colour-text);
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-    width: 100%;
+    width: auto;
     min-height: 100%;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     font-family: var(--active-fontFamily);
     font-size: var(--active-fontSize);
 }
 
 .content-container {
+    min-height: calc(100vh - 120px);
     max-width: 1920px;
     margin: 0 auto;
+    justify-content: center;
+    overflow: auto;
+    padding-top: 60px;
 }
 
 @media only screen and (max-width: 620px) {
@@ -80,13 +90,16 @@ body {
 
 header {
     background-color: var(--colour-naf);
-    color: var(--colour-white);
-    width: 80%;
+    color: white;
+    position: fixed;
+    top: 0;
+    width: 100%;
     height: 60px;
     padding: 0 10%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 100;
 }
 
 header a,
@@ -131,23 +144,55 @@ p {
 
 main {
     /* background-color: var(--colour-white); */
-    width: 80%;
+    width: 100%;
     height: 100%;
-    padding: 60px 10%;
+    padding: 10px 10%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    box-sizing: border-box;
+}
+
+.youtube-section {
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.video-content {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.video-content div {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.video-content iframe {
+    position: absolute;
+    top: 30px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 60px);
 }
 
 footer {
     background-color: var(--colour-naf);
     color: var(--colour-navText);
-    width: 80%;
+    position: static;
+    bottom: 0;
+    width: 100%;
     height: 60px;
-    /* min-height: 60px;
-    max-height: 60px; */
     padding: 0 10%;
     display: flex;
     justify-content: center;
@@ -208,16 +253,16 @@ a > svg {
     width: 100%;
     height: 30px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
 .about-text {
     /* background-color: yellow; */
-    width: 100%;
+    width: 70%;
     height: fit-content;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
 
@@ -347,32 +392,32 @@ a > svg {
     left: 50%;
     transform: translateX(-50%);
     flex-direction: column;
-    display: flex; /* Always display the tabs on desktop */
+    display: flex;
 }
 
 .tabs a {
-    padding: 10px; /* Adjust this value as needed */
+    padding: 10px;
 }
 
 @media screen and (max-width: 900px) {
     .dropdown-button {
-        display: block; /* Show the dropdown button on mobile */
+        display: block;
     }
 
     .tabs {
-        display: none; /* Hide the tabs on mobile */
+        display: none;
         width: 100%;
     }
 
     .tabs a {
-        padding: 10px; /* Adjust this value as needed */
-        text-align: center; /* Center the text */
+        padding: 10px;
+        text-align: center;
     }
 }
 
 @media screen and (min-width: 900px) {
     .tabs {
-        flex-direction: row; /* Make the tabs align horizontally on desktop */
+        flex-direction: row;
     }
 
     .dropdown-button {
@@ -382,7 +427,12 @@ a > svg {
 
 header {
     display: flex;
-    justify-content: center; /* Center the tabs on desktop */
+    justify-content: center;
     align-items: center;
+}
+
+iframe {
+    flex: 1 0 auto;
+    margin: 10px;
 }
 
