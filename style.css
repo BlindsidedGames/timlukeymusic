@@ -156,13 +156,27 @@ main {
 }
 
 .youtube-section {
-    flex-direction: column;
+    display: flex;
+    justify-content: center;
     flex-wrap: wrap;
-    justify-content: flex-start;
-    width: 100%;
+    gap: 20px;
 }
 
-.video-content {
+@media screen and (max-width: 560px) {
+    .youtube-section iframe {
+        width: 320px;
+        height: 180px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .youtube-section iframe {
+        width: 160px;
+        height: 90px;
+    }
+}
+
+/*.video-content {
     position: relative;
     width: 100%;
     padding-bottom: 56.25%;
@@ -176,15 +190,15 @@ main {
 .video-content div {
     font-size: 24px;
     font-weight: bold;
-}
+}*/
 
-.video-content iframe {
+/*.video-content iframe {
     position: absolute;
     top: 30px;
     left: 0;
     width: 100%;
     height: calc(100% - 60px);
-}
+}*/
 
 footer {
     background-color: var(--colour-naf);
@@ -431,8 +445,8 @@ header {
     align-items: center;
 }
 
-iframe {
+/*iframe {
     flex: 1 0 auto;
     margin: 10px;
-}
+}*/
 
