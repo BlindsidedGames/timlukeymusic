@@ -374,6 +374,10 @@ a > svg {
     .tabs {
         flex-direction: row; /* Make the tabs align horizontally on desktop */
     }
+
+    .dropdown-button {
+        display: none;
+    }
 }
 
 header {
