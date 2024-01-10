@@ -9,16 +9,18 @@
     --colour-navText: hsl(240, 25%, 95%);
     --colour-tabs: hsl(240, 55%, 65%);
 
+    --colour-body: hsl(240, 5%, 10%);
+    --colour-text: hsl(240, 25%, 90%);
+
     --active-fontSize: 20px;
     --alternate-fontSize: 12px;
     --active-fontFamily: 'Monaco', sans-serif;
     --alternate-fontFamily: 'Reprise Title', sans-serif;
 }
 
-@media (prefers-color-scheme: light) {
+/*@media (prefers-color-scheme: light) {
     :root {
-        --colour-body: hsl(240, 5%, 10%);
-        --colour-text: hsl(240, 25%, 90%);
+        
     }
 }
 
@@ -27,7 +29,7 @@
         --colour-body: hsl(240, 5%, 10%);
         --colour-text: hsl(240, 25%, 90%);
     }
-}
+}*/
 
 
 a {
