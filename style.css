@@ -17,8 +17,8 @@
 
 @media (prefers-color-scheme: light) {
     :root {
-        --colour-body: hsl(240, 20%, 95%);
-        --colour-text: hsl(240, 5%, 10%);
+        --colour-body: hsl(240, 5%, 10%);
+        --colour-text: hsl(240, 25%, 90%);
     }
 }
 
