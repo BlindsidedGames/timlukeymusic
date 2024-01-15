@@ -526,3 +526,9 @@ header {
         height: 100px;
     }
 }
+
+figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
+    width: 70vw; /* Adjust this value as needed */
+    padding: 10px;
+    max-width: 1000px;
+}

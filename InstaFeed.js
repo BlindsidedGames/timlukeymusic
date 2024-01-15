@@ -1,9 +1,9 @@
 ﻿// Replace with your Instagram Access Token
-const accessToken = 'IGQWRPRUhLTnh0NS1fZAmR6QkRuMkUxWmFtX1NIeHFmNjRHY244SndvdUxCYXpfNFFTTVJOVjBNQmJleE9qRU5PeXhQYlNMQW5heVpGWE9RSVlXN2todUdEdGp0dDFTemphS3FaM2VXSkJodwZDZD';
+const accessToken = 'IGQWRNYllhQVZAKZAEdRTWo3d2wyQ1BCV0JfM0VscnRlVjlPOGxtcnlNNEQxaHVCMUo1T2JYdzRKclRkOTlrRUJJR05WcTdnN2x0UzVraUdvaU5nenZALNTRBV2JvOVpRWGU5YzBudllVaW13UQZDZD';
 
 // Function to fetch and display Instagram feed
 function getInstagramFeed() {
-    fetch(`https://graph.instagram.com/v12.0/me/media?fields=id,caption,media_type,media_url,permalink,timestamp&access_token=${accessToken}`)
+    fetch(`https://feeds.behold.so/xCtD8lJEFavXxLO5s5F2`)
         .then(response => response.json())
         .then(data => {
             const carousel = document.querySelector('.carousel');
