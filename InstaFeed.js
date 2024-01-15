@@ -1,5 +1,5 @@
 ﻿// Replace with your Instagram Access Token
-const accessToken = 'IGQWROek53UTltNnJNRjlWRy1neTA0LU16WTVVZAE9FVmVJZAUFpbmxhRzlpdzRBZAWNxYjJ3Nm4zRmNwcXFYYVlMb20tS0tiUDJFeTdNN2QzUUUxTlpBM2lXNVViWUhDRVhpaWs2Ylc5T2xLUQZDZD';
+const accessToken = 'IGQWRPRUhLTnh0NS1fZAmR6QkRuMkUxWmFtX1NIeHFmNjRHY244SndvdUxCYXpfNFFTTVJOVjBNQmJleE9qRU5PeXhQYlNMQW5heVpGWE9RSVlXN2todUdEdGp0dDFTemphS3FaM2VXSkJodwZDZD';
 
 // Function to fetch and display Instagram feed
 function getInstagramFeed() {
