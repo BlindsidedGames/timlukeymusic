@@ -470,3 +470,59 @@ header {
     font-weight: 400;
 }
 
+.carousel {
+    display: flex;
+    width: 930px; /* 3 times the width of a carousel item */
+    overflow: auto;
+
+
+    ::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+
+.carousel-item {
+    flex: 0 0 auto;
+    width: 300px;
+    margin: 5px;
+}
+
+.instagram-image {
+    width: 300px; /* Adjust as needed */
+    height: 300px; /* Adjust as needed */
+    object-fit: cover; /* This will ensure that the image covers the entire area of the img element without stretching */
+    border-radius: 15px; /* Optional: to make the images round */
+    margin: 5px; /* Adjust as needed to change the space around the images */
+}
+
+.carousel {
+    scrollbar-width: none;
+}
+
+.carousel {
+    -ms-overflow-style: none;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+    .carousel {
+        width: 330px; /* 3 times the width of a carousel item */
+    }
+
+    .carousel-item {
+        width: 100px;
+    }
+
+    .instagram-image {
+        width: 100px;
+        height: 100px;
+    }
+}
