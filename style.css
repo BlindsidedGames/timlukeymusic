@@ -532,3 +532,38 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
     padding: 10px;
     max-width: 1000px;
 }
+
+.buttonZ {
+    font-family: 'Reprise Title', sans-serif;
+    font-size: 30px;
+    border: 2px solid var(--colour-accent);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    background-color: var(--colour-naf);
+    width: 200px;
+    margin: 5px;
+}
+
+.buttonZ.active {
+    background-color: var(--colour-accent);
+
+}
+
+.gigSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 400px;
+    margin: 10px;
+}
+
+.gigSectionContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 80vw;
+}

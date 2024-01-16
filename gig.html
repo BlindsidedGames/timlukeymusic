@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" href="./img/logo.jpg" type="image/jpg">
+    <title>Tim Lukey Music </title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="index-page">
+<header>
+    <button class="dropdown-button">
+        <div class="dropdown-line"></div>
+        <div class="dropdown-line"></div>
+        <div class="dropdown-line"></div>
+    </button>
+    <div class="tabs">
+        <a href="./index.html">Home</a>
+        <a href="./guitarist.html">Guitarist</a>
+        <a href="./arranger.html">Arranger</a>
+        <a href="./composer.html">Composer</a>
+        <a href="./songwriter.html">Songwriter</a>
+        <a href="./producer.html">Producer</a>
+        <a href="./testimonials.html">Testimonials</a>
+        <a href="./contact.html">Contact</a>
+    </div>
+</header>
+
+<div class="content-container">
+    <div class="tabs">
+        <button id="originalsButton" class="buttonZ active">Originals</button>
+        <button id="coversButton" class="buttonZ">Covers</button>
+    </div>
+
+    <div id="originals" class="content-container">
+        <div class="gigSectionContainer">
+            <div class="gigSection">
+                <h1>Solo</h1>
+                <div>My solo originals work is instrumental fingerstyle guitar, this is an EP I released in 2018</div>
+                <audio id="audioPlayer" controls>
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div class="gigSection">
+                <h1>Part of a Band</h1>
+                <div>Looking for a player for your originals band? Name the genre!”
+
+                    Explore my songwriter page
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="covers" class="content-container" style="display: none;">
+
+    </div>
+
+</div>
+<div>
+
+</div>
+
+<footer>
+    <p>All rights reserved &copy; Timothy Lukey 2024</p>
+</footer>
+<script src="dropdown.js"></script>
+<script>
+    var originalsButton = document.getElementById('originalsButton');
+    var coversButton = document.getElementById('coversButton');
+
+    originalsButton.addEventListener('click', function () {
+        originalsButton.classList.add('active');
+        coversButton.classList.remove('active');
+        document.getElementById('originals').style.display = 'block';
+        document.getElementById('covers').style.display = 'none';
+    });
+
+    coversButton.addEventListener('click', function () {
+        coversButton.classList.add('active');
+        originalsButton.classList.remove('active');
+        document.getElementById('covers').style.display = 'block';
+        document.getElementById('originals').style.display = 'none';
+    });
+
+    var playlist = ["./Files/Tim Lukey - Directions - 01 Saiorse.mp3", "audio/song2.mp3", "audio/song3.mp3", "audio/song4.mp3", "audio/song5.mp3"];
+    var currentSong = 0;
+
+    var audioPlayer = document.getElementById('audioPlayer');
+
+    audioPlayer.src = playlist[currentSong];
+
+    audioPlayer.addEventListener('ended', function () {
+        currentSong++;
+        if (currentSong >= playlist.length) {
+            currentSong = 0;
+        }
+        audioPlayer.src = playlist[currentSong];
+        audioPlayer.play();
+    });
+</script>
+</body>
+</html>
