@@ -552,13 +552,15 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
 
 .gigTabs {
     z-index: 1;
-    background-color: var(--colour-naf);
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    /*background-color: var(--colour-naf);*/
+    /*left: 50%;*/
+    /*transform: translateX(-50%);*/
     flex-direction: row;
     display: flex;
     margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .gigSection {
@@ -567,9 +569,17 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
     justify-content: center;
     align-items: center;
     max-width: 350px;
+    min-width: 250px;
     margin: 10px;
     padding: 10px;
+    width: 70%;
 }
+
+.bookGigiFrame {
+    width: 100%;
+    height: 500px;
+}
+
 
 .gigSectionContainer {
     display: flex;
@@ -577,7 +587,7 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
     justify-content: center;
     align-items: flex-start;
     flex-wrap: wrap;
-    width: 80vw;
+    width: 100%;
     gap: 10px;
 }
 

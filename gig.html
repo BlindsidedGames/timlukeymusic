@@ -107,7 +107,7 @@
         <div class="gigSectionContainer">
             <div class="gigSection">
                 <h1>Solo</h1>
-                <iframe class="bookGigiFrame" width="360" height="202.5"
+                <iframe class="bookGigiFrame" width="100" height="202.5"
                         src="https://www.youtube.com/embed/yIVQI6gyOMU?si=EflLGlrk2gY-0Jim"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -168,6 +168,26 @@
         document.getElementById('covers').style.display = 'block';
         document.getElementById('originals').style.display = 'none';
     });
+
+    window.onload = function () {
+        // Define the resize event handler
+        function adjustVideoHeight() {
+            // Select all elements with the class 'bookGigiFrame'
+            var frames = document.querySelectorAll('.bookGigiFrame');
+
+            // Iterate over each element
+            frames.forEach(function (frame) {
+                // Set the height to be 56.25% of the current width
+                frame.style.height = frame.offsetWidth * 0.5625 + 'px';
+            });
+        }
+
+        // Add the event listener for the window's resize event
+        window.addEventListener('resize', adjustVideoHeight);
+
+        // Call the function once initially to set the height correctly when the page first loads
+        adjustVideoHeight();
+    }
 </script>
 <script src=soloGigPlaylist.js></script>
 </body>
