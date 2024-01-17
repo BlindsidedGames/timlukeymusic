@@ -84,6 +84,16 @@ body {
     padding-top: 60px;
 }
 
+.content-container-gigs {
+    min-height: calc(100vh - 120px);
+    max-width: 1920px;
+    width: 100%;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
 @media only screen and (max-width: 620px) {
     body {
         margin: 0;
@@ -582,8 +592,8 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
     align-items: center;
     max-width: 350px;
     min-width: 250px;
-    margin: 10px;
-    padding: 10px;
+    margin: 20px;
+    /*padding: 10px;*/
     width: 70%;
 }
 
@@ -600,7 +610,7 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
     align-items: flex-start;
     flex-wrap: wrap;
     width: 100%;
-    gap: 10px;
+
 }
 
 .bookGigiFrame {
