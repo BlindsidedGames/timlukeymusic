@@ -550,6 +550,17 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
 
 }
 
+.gigTabs {
+    z-index: 1;
+    background-color: var(--colour-naf);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    flex-direction: row;
+    display: flex;
+    margin-top: 10px;
+}
+
 .gigSection {
     display: flex;
     flex-direction: column;
