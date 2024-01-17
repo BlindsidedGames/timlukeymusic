@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/a062562745.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)">
@@ -41,23 +42,104 @@
         <div class="gigSectionContainer">
             <div class="gigSection">
                 <h1>Solo</h1>
-                <div>My solo originals work is instrumental fingerstyle guitar, this is an EP I released in 2018</div>
-                <audio id="audioPlayer" controls>
+                <div>My solo originals work is instrumental fingerstyle guitar. This is an EP I released in 2018</div>
+                <audio id="myAudio" ontimeupdate="onTimeUpdate()">
+                    <!-- <source src="audio.ogg" type="audio/ogg"> -->
+                    <source id="source-audio" src="" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
+
+                <div class="player-ctn">
+                    <div class="infos-ctn">
+                        <div class="timer">00:00</div>
+                        <div class="title"></div>
+                        <div class="duration">00:00</div>
+                    </div>
+                    <div id="myProgress">
+                        <div id="myBar"></div>
+                    </div>
+                    <div class="btn-ctn">
+                        <div class="btn-action first-btn" onclick="previous()">
+                            <div id="btn-faws-back">
+                                <i class='fas fa-step-backward'></i>
+                            </div>
+                        </div>
+                        <div class="btn-action" onclick="rewind()">
+                            <div id="btn-faws-rewind">
+                                <i class='fas fa-backward'></i>
+                            </div>
+                        </div>
+                        <div class="btn-action" onclick="toggleAudio()">
+                            <div id="btn-faws-play-pause">
+                                <i class='fas fa-play' id="icon-play"></i>
+                                <i class='fas fa-pause' id="icon-pause" style="display: none"></i>
+                            </div>
+                        </div>
+                        <div class="btn-play" onclick="forward()">
+                            <div id="btn-faws-forward">
+                                <i class='fas fa-forward'></i>
+                            </div>
+                        </div>
+                        <div class="btn-action" onclick="next()">
+                            <div id="btn-faws-next">
+                                <i class='fas fa-step-forward'></i>
+                            </div>
+                        </div>
+                        <div class="btn-mute" id="toggleMute" onclick="toggleMute()">
+                            <div id="btn-faws-volume">
+                                <i id="icon-vol-up" class='fas fa-volume-up'></i>
+                                <i id="icon-vol-mute" class='fas fa-volume-mute' style="display: none"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="playlist-ctn"></div>
+                </div>
             </div>
             <div class="gigSection">
                 <h1>Part of a Band</h1>
-                <div>Looking for a player for your originals band? Name the genre!”
-
-                    Explore my songwriter page
+                <div>Looking for a player for your originals band? Name the genre!
                 </div>
             </div>
         </div>
     </div>
 
     <div id="covers" class="content-container" style="display: none;">
+        <div class="gigSectionContainer">
+            <div class="gigSection">
+                <h1>Solo</h1>
+                <iframe class="bookGigiFrame" width="360" height="202.5"
+                        src="https://www.youtube.com/embed/yIVQI6gyOMU?si=EflLGlrk2gY-0Jim"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                <div>Whether it's chill Sunday afternoon ballads or thumping Saturday night pub classics I can cover
+                    whatever your live music needs are!
+                </div>
+            </div>
+            <div class="gigSection">
+                <h1>Duo</h1>
+                <iframe class="bookGigiFrame" width="360" height="202.5"
+                        src="https://www.youtube.com/embed/cas6rm1tqHc?si=nG2HR46ZuVpqUsB8"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                <div>I have plenty of experience playing in duos, particularly for weddings! I have several female
+                    singers, instrumentalists and more on my books who can help to create a larger sound for your event
+                </div>
+            </div>
+            <div class="gigSection">
+                <h1>Part of a Band</h1>
+                <iframe class="bookGigiFrame" width="360" height="202.5"
+                        src="https://www.youtube.com/embed/8Yy7YsjvMgU?si=H9YWhNHaLVnPxq9_"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen></iframe>
+                <div>Looking for that full party sound? I’ve got you. Whether you want a rock band, jazz band with horns
+                    included or a smaller, chill acoustic band I can assemble a team to make it happen for you
+                </div>
 
+            </div>
+        </div>
     </div>
 
 </div>
@@ -86,22 +168,7 @@
         document.getElementById('covers').style.display = 'block';
         document.getElementById('originals').style.display = 'none';
     });
-
-    var playlist = ["./Files/Tim Lukey - Directions - 01 Saiorse.mp3", "audio/song2.mp3", "audio/song3.mp3", "audio/song4.mp3", "audio/song5.mp3"];
-    var currentSong = 0;
-
-    var audioPlayer = document.getElementById('audioPlayer');
-
-    audioPlayer.src = playlist[currentSong];
-
-    audioPlayer.addEventListener('ended', function () {
-        currentSong++;
-        if (currentSong >= playlist.length) {
-            currentSong = 0;
-        }
-        audioPlayer.src = playlist[currentSong];
-        audioPlayer.play();
-    });
 </script>
+<script src=soloGigPlaylist.js></script>
 </body>
 </html>
