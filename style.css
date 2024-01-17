@@ -76,8 +76,10 @@ body {
 .content-container {
     min-height: calc(100vh - 120px);
     max-width: 1920px;
+    width: 100%;
     margin: 0 auto;
     justify-content: center;
+    align-items: center;
     overflow: auto;
     padding-top: 60px;
 }
@@ -470,9 +472,9 @@ header {
     font-weight: 400;
 }
 
-.carousel {
+/*.carousel {
     display: flex;
-    width: 930px; /* 3 times the width of a carousel item */
+    width: 930px; !* 3 times the width of a carousel item *!
     overflow: auto;
 
 
@@ -492,11 +494,11 @@ header {
 }
 
 .instagram-image {
-    width: 300px; /* Adjust as needed */
-    height: 300px; /* Adjust as needed */
-    object-fit: cover; /* This will ensure that the image covers the entire area of the img element without stretching */
-    border-radius: 15px; /* Optional: to make the images round */
-    margin: 5px; /* Adjust as needed to change the space around the images */
+    width: 300px; !* Adjust as needed *!
+    height: 300px; !* Adjust as needed *!
+    object-fit: cover; !* This will ensure that the image covers the entire area of the img element without stretching *!
+    border-radius: 15px; !* Optional: to make the images round *!
+    margin: 5px; !* Adjust as needed to change the space around the images *!
 }
 
 .carousel {
@@ -514,7 +516,7 @@ header {
 
 @media screen and (max-width: 768px) {
     .carousel {
-        width: 330px; /* 3 times the width of a carousel item */
+        width: 330px; !* 3 times the width of a carousel item *!
     }
 
     .carousel-item {
@@ -525,6 +527,16 @@ header {
         width: 100px;
         height: 100px;
     }
+}*/
+
+.instagram {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
