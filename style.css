@@ -63,7 +63,7 @@ body {
     margin: 0 auto;
     padding: 0;
     width: auto;
-    min-height: 100%;
+    min-height: 100vh;
     overflow-x: hidden;
     display: flex;
     flex-direction: column;
@@ -206,6 +206,13 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+footer a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* Adjust as needed */
 }
 
 @media screen and (max-width: 600px) {
