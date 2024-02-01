@@ -479,7 +479,7 @@ header {
 }
 
 @media screen and (max-width: 1300px) {
-    .text-with-svg img[src="./guitarMan.svg"] {
+    .text-with-svg img[src="./img/guitarMan.svg"] {
         display: none;
     }
 }
