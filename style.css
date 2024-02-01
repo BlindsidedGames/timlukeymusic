@@ -5,7 +5,7 @@
 :root {
     --colour-naf: hsl(240, 5%, 20%);
     --colour-accent: hsl(240, 55%, 65%);
-    --colour-socials: hsl(240, 5%, 40%);
+    --colour-socials: white;
     --colour-navText: hsl(240, 25%, 95%);
     --colour-tabs: hsl(240, 55%, 65%);
 
@@ -746,4 +746,11 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
 .fas {
     color: white;
     font-size: 20px;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
