@@ -463,12 +463,24 @@ header {
     justify-content: space-between;
     align-items: center;
 }
-
+.default-link {
+    color: var(--colour-accent);
+    text-decoration: underline;
+}
 .text-with-svg {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
+
+.text-for-testimonials {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: first baseline;
+    gap: 30px;
+}
+
 
 .text-with-svg img {
     width: 500px; /* Adjust as needed */
@@ -482,6 +494,37 @@ header {
     .text-with-svg img[src="./img/guitarMan.svg"] {
         display: none;
     }
+}
+
+.text-with-button {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: 20px;
+}
+@media screen and (min-width: 600px) {
+    .text-with-button {
+        flex-direction: row;
+    }
+}
+
+
+.gigButton {
+    font-family: 'Reprise Title', sans-serif;
+    font-size: 30px;
+    border: 2px solid var(--colour-accent);
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    background-color: var(--colour-naf);
+    width: 200px;
+    margin: 5px;
+    white-space: nowrap;
+}
+
+.text-with-button > div:first-child {
+    max-width: 650px; /* Adjust as needed */
 }
 
 .tabs a, h1 {
@@ -753,4 +796,7 @@ figure[data-behold-id="y3xMZFVqS35iBVnG148q"] {
     align-items: center;
     justify-content: center;
     gap: 10px;
+}
+.text-for-offset-testimonials {
+    color: grey;
 }
