@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" href="./img/logo.jpg" type="image/jpg">
-    <title>Tim Lukey Music </title>
+    <title>Arranger | Tim Lukey Music</title>
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
@@ -21,11 +20,16 @@
     </button>
     <div class="tabs">
         <a href="./index.html">Home</a>
-        <a href="./guitarist.html">Guitarist</a>
-        <a href="./arranger.html" class="tab-active">Arranger</a>
-        <a href="./composer.html">Composer</a>
-        <a href="./songwriter.html">Songwriter</a>
-        <a href="./producer.html">Producer</a>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Services</a>
+            <div class="dropdown-menu">
+                <a href="./guitarist.html">Guitarist</a>
+                <a href="./producer.html">Producer</a>
+                <a href="./arranger.html" class="tab-active">Arranger</a>
+                <a href="./gig.html">Live Music</a>
+                <a href="./teaching.html">Teaching</a>
+            </div>
+        </div>
         <a href="./testimonials.html">Testimonials</a>
         <a href="./contact.html">Contact</a>
     </div>
@@ -33,47 +37,46 @@
 
 <div class="content-container">
     <main>
-        <div class="text-with-button">
-            <div>
-                An arranger serves a multitude of roles, helping your vision come to life in many different forms. Whether it’s taking your song from guitar/vocals to a full band arrangement, transcribing an old jazz piece for a 20-piece big band ensemble, or enhancing an existing track with the addition of a string quartet, Tim possesses the versatile skills and expertise needed. Having had experience writing for everything from solo guitar to full scale orchestra, Tim is capable of writing whatever charts are needed and sourcing the best session musicians on his books for the job!
-            </div>
-            <div>
-                <a id="coversButton" class="gigButton" href="./Files/Arranger Portfolio.pdf" target="_blank">Arranger Portfolio</a>
-            </div>
+        <div class="text-content">
+            <h1>Arranger</h1>
+            <p>An arranger serves a multitude of roles, helping your vision come to life in many different forms. Whether it's taking your song from guitar/vocals to a full band arrangement, transcribing an old jazz piece for a 20-piece big band ensemble, or enhancing an existing track with the addition of a string quartet, Tim possesses the versatile skills and expertise needed.</p>
+            
+            <p>Having had experience writing for everything from solo guitar to full scale orchestra, Tim is capable of writing whatever charts are needed and sourcing the best session musicians on his books for the job!</p>
         </div>
-        <div class="youtube-section">
-            <!--<div class="video-container">-->
-             <iframe width="560" height="315" src="https://www.youtube.com/embed/aEw2s_4PZLs?si=2s_bOuJqDAj71FR4"
+        
+        <div class="youtube-section youtube-grid">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/aEw2s_4PZLs?si=2s_bOuJqDAj71FR4"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
-            <!--</div>-->
 
-            <!--<div class="video-container">-->
             <iframe width="560" height="315" src="https://www.youtube.com/embed/7JAsjv2rv9w?si=R2Bt5Vs3-LKLX-pv"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen></iframe>
-           
-            <!--</div>-->
 
-            <!--<div class="video-container">-->
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/FTTJ9wv6whk?si=MIMPx0Rcfhpito6s"
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/FTTJ9wv6whk?si=MIMPx0Rcfhpito6s"
                 title="YouTube video player" frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowfullscreen></iframe>
-            <!--</div>-->
+                
             <iframe width="560" height="315" src="https://www.youtube.com/embed/LHb8SIVOiwo?si=12b003NvZ5qYKGmb"
             title="YouTube video player" frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen></iframe>
             
-        
             <iframe width="560" height="315" src="https://www.youtube.com/embed/iyZR6ayeH_o?si=wifrNqqYvCEJYlb4"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>        
-                    
+                    allowfullscreen></iframe>
+
+            <!-- 6th slot: Arranger Portfolio card (entire card clickable) -->
+            <a class="resource-card portfolio-card" href="./Files/Arranger Portfolio.pdf" target="_blank" rel="noopener noreferrer">
+                <div class="icon" aria-hidden="true">
+                    <img src="./img/pdf.png" alt="PDF icon" />
+                </div>
+                <div class="resource-card-title">Arranger Portfolio</div>
+            </a>
         </div>
     </main>
 </div>
@@ -104,12 +107,8 @@
             </svg>
         </a>
 
-        <a href="mailto:timlukeymusic@gmail.com?subject=Contact">
-            <!-- email -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
-            </svg>
+        <a href="https://www.tiktok.com/@timlukeymusic" target="_blank" aria-label="TikTok">
+            <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok" />
         </a>
     </section>
 </footer>

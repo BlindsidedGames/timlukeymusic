@@ -4,16 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/a062562745.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" href="./img/logo.jpg" type="image/jpg">
-    <title>Tim Lukey Music </title>
+    <title>Live Music | Tim Lukey Music</title>
     <link rel="stylesheet" href="./style.css">
 </head>
-<body class="index-page">
+<body>
 <header>
     <button class="dropdown-button">
         <div class="dropdown-line"></div>
@@ -22,19 +20,23 @@
     </button>
     <div class="tabs">
         <a href="./index.html">Home</a>
-        <a href="./guitarist.html">Guitarist</a>
-        <a href="./arranger.html">Arranger</a>
-        <a href="./composer.html">Composer</a>
-        <a href="./songwriter.html">Songwriter</a>
-        <a href="./producer.html">Producer</a>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Services</a>
+            <div class="dropdown-menu">
+                <a href="./producer.html">Producer</a>
+                <a href="./guitarist.html">Guitarist</a>
+                <a href="./arranger.html">Arranger</a>
+                <a href="./gig.html" class="tab-active">Live Music</a>
+                <a href="./teaching.html">Teaching</a>
+            </div>
+        </div>
         <a href="./testimonials.html">Testimonials</a>
         <a href="./contact.html">Contact</a>
     </div>
 </header>
 
 <div class="content-container">
-    <footer>
-        <section class="socials">
+    <section class="socials" style="display:none">
             <a href="https://www.facebook.com/timlukeymusic" target="_blank">
                 <!-- facebook -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -66,118 +68,18 @@
                           d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
                 </svg>
             </a>
-        </section>
-    </footer>
-    <div class="gigTabs">
-        <button id="coversButton" class="buttonZ active">Covers</button>
-        <button id="originalsButton" class="buttonZ">Originals</button>
-    </div>
-
-    <div id="originals" class="content-container-gigs" style="display: none;">
-        <div class="gigSectionContainer">
-            <div class="gigSection">
-                <h1>Solo</h1>
-                <div>My solo originals work is instrumental fingerstyle guitar. This is an EP I released in 2018</div>
-                <audio id="myAudio" ontimeupdate="onTimeUpdate()">
-                    <!-- <source src="audio.ogg" type="audio/ogg"> -->
-                    <source id="source-audio" src="" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-
-                <div class="player-ctn">
-                    <div class="infos-ctn">
-                        <div class="timer">00:00</div>
-                        <div class="title"></div>
-                        <div class="duration">00:00</div>
-                    </div>
-                    <div id="myProgress">
-                        <div id="myBar"></div>
-                    </div>
-                    <div class="btn-ctn">
-                        <div class="btn-action first-btn" onclick="previous()">
-                            <div id="btn-faws-back">
-                                <i class='fas fa-step-backward'></i>
-                            </div>
-                        </div>
-                        <div class="btn-action" onclick="rewind()">
-                            <div id="btn-faws-rewind">
-                                <i class='fas fa-backward'></i>
-                            </div>
-                        </div>
-                        <div class="btn-action" onclick="toggleAudio()">
-                            <div id="btn-faws-play-pause">
-                                <i class='fas fa-play' id="icon-play"></i>
-                                <i class='fas fa-pause' id="icon-pause" style="display: none"></i>
-                            </div>
-                        </div>
-                        <div class="btn-play" onclick="forward()">
-                            <div id="btn-faws-forward">
-                                <i class='fas fa-forward'></i>
-                            </div>
-                        </div>
-                        <div class="btn-action" onclick="next()">
-                            <div id="btn-faws-next">
-                                <i class='fas fa-step-forward'></i>
-                            </div>
-                        </div>
-                        <div class="btn-mute" id="toggleMute" onclick="toggleMute()">
-                            <div id="btn-faws-volume">
-                                <i id="icon-vol-up" class='fas fa-volume-up'></i>
-                                <i id="icon-vol-mute" class='fas fa-volume-mute' style="display: none"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="playlist-ctn"></div>
-                </div>
-            </div>
-            <div class="gigSection">
-                <h1>Part of a Band</h1>
-                <div>Looking for a player for your originals band? Name the genre! <a href="./songwriter.html"
-                                                                                      class="default-link">Check this
-                    out</a>
-                </div>
-            </div>
+    </section>
+    <main>
+        <div class="text-content">
+            <h1>Live Music</h1>
         </div>
-    </div>
-
-    <div id="covers" class="content-container-gigs">
-        <div class="gigSectionContainer">
-            <div class="gigSection">
-                <h1>Solo</h1>
-                <iframe class="bookGigiFrame" width="100" height="202.5"
-                        src="https://www.youtube.com/embed/yIVQI6gyOMU?si=EflLGlrk2gY-0Jim"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
-                <div>Whether it's chill Sunday afternoon ballads or thumping Saturday night pub classics I can cover
-                    whatever your live music needs are!
-                </div>
-            </div>
-            <div class="gigSection">
-                <h1>Duo</h1>
-                <iframe class="bookGigiFrame" width="360" height="202.5"
-                        src="https://www.youtube.com/embed/cas6rm1tqHc?si=nG2HR46ZuVpqUsB8"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
-                <div>I have plenty of experience playing in duos, particularly for weddings! I have several female
-                    singers, instrumentalists and more on my books who can help to create a larger sound for your event
-                </div>
-            </div>
-            <div class="gigSection">
-                <h1>Part of a Band</h1>
-                <iframe width="360" height="202.5"
-                        src="https://www.youtube.com/embed/7TZzPfo5l1I?si=cOXbfkSLxIHWVs16"
-                        title="YouTube video player" frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowfullscreen></iframe>
-                <div>Looking for that full party sound? I’ve got you. Whether you want a rock band, jazz band with horns
-                    included or a smaller, chill acoustic band I can assemble a team to make it happen for you
-                </div>
-
-            </div>
+        <div class="youtube-section youtube-grid">
+            <iframe src="https://www.youtube.com/embed/yIVQI6gyOMU?si=EflLGlrk2gY-0Jim" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/cas6rm1tqHc?si=nG2HR46ZuVpqUsB8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/7TZzPfo5l1I?si=cOXbfkSLxIHWVs16" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/TqCmJ4wwlaU?si=Vov73N5Clxf4aJhi" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" loading="lazy" allowfullscreen></iframe>
         </div>
-    </div>
+    </main>
 
 </div>
 
@@ -207,17 +109,12 @@
             </svg>
         </a>
 
-        <a href="mailto:timlukeymusic@gmail.com?subject=Contact">
-            <!-- email -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/>
-            </svg>
+        <a href="https://www.tiktok.com/@timlukeymusic" target="_blank" aria-label="TikTok">
+            <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok" />
         </a>
     </section>
 </footer>
 <script src="./Scripts/dropdown.js"></script>
-<script src="./Scripts/gigPageScripts.js"></script>
-<script src=./Scripts/soloGigPlaylist.js></script>
+<!-- Removed tab toggling and audio playlist scripts since page is now single layout -->
 </body>
 </html>
