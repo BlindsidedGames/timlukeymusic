@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "timlukeymusic-beta",
+  "compatibility_date": "2026-07-12",
+  "pages_build_output_dir": ".",
+  "vars": {
+    "CONTACT_RATE_LIMIT_WINDOW_SECONDS": "600",
+    "CONTACT_RATE_LIMIT_MAX_REQUESTS": "5",
+    "CONTACT_EMAIL_FROM": "Tim Lukey Music <no-reply@timlukeymusic.com>",
+    "CONTACT_TO_EMAIL": "timlukeymusic@gmail.com",
+    "PUBLIC_TURNSTILE_SITE_KEY": ""
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CONTACT_RATE_LIMIT_KV",
+      "id": "c6a94635227444e29cb193374202c4fc",
+      "preview_id": "caa012b6efcf458998969cca7d5d26ea"
+    }
+  ]
+}

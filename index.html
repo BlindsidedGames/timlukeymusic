@@ -1,106 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="hsl(240, 5%, 20%)" media="(prefers-color-scheme: dark)">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0d0d0c">
+    <meta name="description" content="Tim Lukey is a producer, guitarist, arranger, composer, songwriter, live musician and teacher.">
     <link rel="shortcut icon" href="./img/logo.jpg" type="image/jpg">
     <title>Tim Lukey Music</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="./modern.css?v=20260712-6">
+    <script>document.documentElement.classList.add('js');</script>
+    <script src="./Scripts/site.js?v=20260712-6" defer></script>
 </head>
-<body class="index-page">
-<header>
-    <button class="dropdown-button">
-        <div class="dropdown-line"></div>
-        <div class="dropdown-line"></div>
-        <div class="dropdown-line"></div>
-    </button>
-    <div class="tabs">
-        <a href="./index.html" class="tab-active">Home</a>
-        <div class="dropdown">
-            <a href="#" class="dropdown-toggle">Services</a>
-            <div class="dropdown-menu">
-                <a href="./guitarist.html">Guitarist</a>
-                <a href="./producer.html">Producer</a>
-                <a href="./arranger.html">Arranger</a>
-                <a href="./gig.html">Live Music</a>
-                <a href="./teaching.html">Teaching</a>
+<body class="modern-page home-page">
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<header class="site-header" data-site-header>
+    <div class="site-header__inner">
+        <a class="wordmark" href="./index.html" aria-label="Tim Lukey Music home">Tim Lukey Music</a>
+
+        <button class="menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
+            <span>Menu</span>
+            <i class="bi bi-list" aria-hidden="true"></i>
+        </button>
+
+        <nav class="site-nav" id="site-navigation" aria-label="Primary navigation">
+            <div class="site-nav__links">
+                <a href="#top" aria-current="location">Home</a>
+                <a href="#work">Work</a>
+                <div class="services-nav">
+                    <button class="services-nav__toggle" type="button" aria-expanded="false">
+                        Services
+                        <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                    </button>
+                    <div class="services-nav__menu">
+                        <a href="#services" class="services-overview-link">Services overview</a>
+                        <a href="./producer.html">Producer</a>
+                        <a href="./guitarist.html">Guitarist</a>
+                        <a href="./arranger.html">Arranger</a>
+                        <a href="./composer.html">Composer</a>
+                        <a href="./songwriter.html">Songwriter</a>
+                        <a href="./gig.html">Live Music</a>
+                        <a href="./teaching.html">Teaching</a>
+                    </div>
+                </div>
+                <a href="#testimonials">Testimonials</a>
+                <a href="./contact.html">Contact</a>
             </div>
-        </div>
-        <a href="./testimonials.html">Testimonials</a>
-        <a href="./contact.html">Contact</a>
+
+            <div class="header-socials" aria-label="Tim Lukey on social media">
+                <a href="https://www.facebook.com/timlukeymusic" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <i class="bi bi-facebook" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.instagram.com/timlukeymusic/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <i class="bi bi-instagram" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.youtube.com/@TimLukeyMusic" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+                    <i class="bi bi-youtube" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.tiktok.com/@timlukeymusic" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <i class="bi bi-tiktok" aria-hidden="true"></i>
+                </a>
+            </div>
+        </nav>
     </div>
-    <nav class="header-socials" aria-label="Social links">
-        <a href="https://www.facebook.com/timlukeymusic" target="_blank" aria-label="Facebook">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64h98.2V334.2H109.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H255V480H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"/>
-            </svg>
-        </a>
-        <a href="https://www.instagram.com/timlukeymusic/" target="_blank" aria-label="Instagram">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-            </svg>
-        </a>
-        <a href="https://www.youtube.com/@TimLukeyMusic" target="_blank" aria-label="YouTube">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/>
-            </svg>
-        </a>
-        <a href="https://www.tiktok.com/@timlukeymusic" target="_blank" aria-label="TikTok">
-            <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok" />
-        </a>
-    </nav>
 </header>
 
-<div class="content-container">
-    <main>
-        <div class="text-content">
-            <h1>Tim Lukey</h1>
+<main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero__copy" data-reveal="left">
+            <p class="eyebrow">Producer · Guitarist · Arranger · Composer</p>
+            <h1 id="hero-title">Tim Lukey</h1>
+            <p class="hero__voice">“Music is my passion. No project too big or small. Welcome to my page!”</p>
+            <div class="hero__services">
+                <p>Tim helps you achieve the perfect sound for your music — whether it’s:</p>
+                <ul>
+                    <li>Adding a band to your solo track</li>
+                    <li>Arranging a full orchestra</li>
+                    <li>Recording and mixing your band’s next release</li>
+                </ul>
+            </div>
+            <div class="button-row">
+                <a class="button button--primary" href="./contact.html">Contact Tim</a>
+                <a class="text-link" href="#work">
+                    Watch Tim in Action
+                    <i class="bi bi-arrow-down" aria-hidden="true"></i>
+                </a>
+            </div>
         </div>
-        <div class="youtube-section">
-            <iframe src="https://www.youtube.com/embed/FvdDH5vmQ40" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-    </main>
-</div>
 
-<footer>
-    <section class="socials">
-        <a href="https://www.facebook.com/timlukeymusic" target="_blank">
-            <!-- facebook -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64h98.2V334.2H109.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H255V480H384c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H64z"/>
-            </svg>
-        </a>
-
-        <a href="https://www.instagram.com/timlukeymusic/" target="_blank">
-            <!-- instagram -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-            </svg>
-        </a>
-
-        <a href="https://www.youtube.com/@TimLukeyMusic" target="_blank">
-            <!-- youtube -->
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
-                <path style="fill: var(--colour-socials)"
-                      d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.2 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/>
-            </svg>
-        </a>
-
-        <a href="https://www.tiktok.com/@timlukeymusic" target="_blank" aria-label="TikTok">
-            <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" alt="TikTok" />
-        </a>
+        <figure class="hero__media">
+            <img src="./img/logo.jpg" alt="Tim Lukey playing guitar in his studio" width="1000" height="666">
+            <figcaption>In the studio</figcaption>
+        </figure>
     </section>
-</footer>
-<script src="./Scripts/dropdown.js"></script>
-</body>
 
+    <section class="work-section section-shell section-rule" id="work" aria-labelledby="work-title">
+        <div class="work-feature">
+            <div class="work-feature__media" id="featured-video" data-video-player data-reveal="left">
+                <button class="work-feature__poster" type="button" data-video-play aria-controls="featured-video" aria-label="Play Tim Lukey Music showreel">
+                    <img src="./img/Tim Pic.jpg" alt="Tim Lukey singing and playing electric guitar live" width="1080" height="721">
+                    <span class="play-button" aria-hidden="true"><i class="bi bi-play-fill"></i></span>
+                </button>
+                <span class="sr-only" data-video-status aria-live="polite"></span>
+            </div>
+
+            <div class="work-feature__details" data-reveal="right">
+                <p class="eyebrow">Watch Tim in Action</p>
+                <h2 id="work-title">Showreel</h2>
+                <p>Featured video from Tim’s current homepage.</p>
+                <button class="text-link text-link--button" type="button" data-video-play>
+                    Play showreel
+                    <i class="bi bi-play-fill" aria-hidden="true"></i>
+                </button>
+
+                <div class="work-resources">
+                    <a href="./Files/Tim Lukey - Directions - 01 Saiorse.mp3">
+                        <span>
+                            <small>2018 EP</small>
+                            Directions
+                        </span>
+                        <i class="bi bi-play-circle" aria-hidden="true"></i>
+                    </a>
+                    <a href="./Files/Arranger Portfolio.pdf" target="_blank" rel="noopener noreferrer">
+                        <span>
+                            <small>PDF</small>
+                            Arranger Portfolio
+                        </span>
+                        <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="services-section section-shell section-rule" id="services" aria-labelledby="services-title">
+        <div class="section-heading section-heading--split" data-reveal>
+            <div>
+                <p class="eyebrow">Services</p>
+                <h2 id="services-title">Musical services</h2>
+            </div>
+            <p>Producer. Guitarist. Arranger. Composer. Songwriter. Live Music. Teaching.</p>
+        </div>
+
+        <div class="services-grid">
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">01</span>
+                <h3><a href="./producer.html">Producer</a></h3>
+                <p>Adding a band to your solo track. Arranging a full orchestra. Recording and mixing your band’s next release.</p>
+                <a class="service-item__link" href="./producer.html" aria-label="View Producer service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">02</span>
+                <h3><a href="./guitarist.html">Guitarist</a></h3>
+                <p>Electric. Acoustic. Showreels.</p>
+                <a class="service-item__link" href="./guitarist.html" aria-label="View Guitarist service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">03</span>
+                <h3><a href="./arranger.html">Arranger</a></h3>
+                <p>From guitar and vocals to a full band arrangement, a 20-piece big band ensemble or the addition of a string quartet.</p>
+                <a class="service-item__link" href="./arranger.html" aria-label="View Arranger service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">04</span>
+                <h3><a href="./gig.html">Live Music</a></h3>
+                <p>Whether it’s chill Sunday afternoon ballads or thumping Saturday night pub classics, I can cover whatever your live music needs are!</p>
+                <a class="service-item__link" href="./gig.html" aria-label="View Live Music service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">05</span>
+                <h3><a href="./teaching.html">Teaching</a></h3>
+                <p>Guitar lessons for all skill levels, from beginners to advanced players. Available in-person or online.</p>
+                <a class="service-item__link" href="./teaching.html" aria-label="View Teaching service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">06</span>
+                <h3><a href="./composer.html">Composer</a></h3>
+                <p>From full orchestra playing concerts to independently produced video game sound tracks.</p>
+                <a class="service-item__link" href="./composer.html" aria-label="View Composer service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+
+            <article class="service-item" data-reveal>
+                <span class="service-item__number">07</span>
+                <h3><a href="./songwriter.html">Songwriter</a></h3>
+                <p>Looking for a player for your originals band? Name the genre!</p>
+                <a class="service-item__link" href="./songwriter.html" aria-label="View Songwriter service">
+                    View service <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </article>
+        </div>
+    </section>
+
+    <section class="testimonials-section section-rule" id="testimonials" aria-labelledby="testimonials-title">
+        <div class="section-shell">
+            <div class="section-heading section-heading--split" data-reveal>
+                <div>
+                    <p class="eyebrow">Testimonials</p>
+                    <h2 id="testimonials-title">From the people Tim works with</h2>
+                </div>
+                <a class="text-link" href="./testimonials.html">
+                    Read all testimonials
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </a>
+            </div>
+
+            <div class="quote-grid">
+                <figure class="quote" data-reveal="left">
+                    <blockquote>
+                        “Tim Lukey’s contribution to my album ‘Daybreak’ was nothing short of fantastic. As the producer, each track was approached with precision and creativity that elevated the entire project.”
+                    </blockquote>
+                    <figcaption>
+                        <strong>Emily Daye</strong>
+                        <span>Singer-songwriter</span>
+                    </figcaption>
+                </figure>
+                <figure class="quote" data-reveal="right">
+                    <blockquote>
+                        “Tim is a versatile and highly skilled musician who seamlessly navigates diverse genres, from classical to jazz, pop, and rock, delivering outstanding performances.”
+                    </blockquote>
+                    <figcaption>
+                        <strong>Dr Mario Dobernig</strong>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-band" aria-labelledby="contact-band-title">
+        <div class="contact-band__inner section-shell" data-reveal>
+            <div>
+                <p class="eyebrow">Contact Tim</p>
+                <h2 id="contact-band-title">Contact Me</h2>
+                <p>Feel free to reach out by phone or email if you need assistance with any of your musical needs.</p>
+            </div>
+            <div class="contact-band__details">
+                <a href="mailto:timlukeymusic@gmail.com">
+                    <i class="bi bi-envelope" aria-hidden="true"></i>
+                    timlukeymusic@gmail.com
+                </a>
+                <a href="tel:+61431004854">
+                    <i class="bi bi-telephone" aria-hidden="true"></i>
+                    0431 004 854
+                </a>
+            </div>
+            <a class="button button--primary" href="./contact.html">Send a message</a>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="site-footer__inner section-shell">
+        <a class="wordmark" href="./index.html">Tim Lukey Music</a>
+        <div class="footer-socials" aria-label="Social media">
+            <a href="https://www.facebook.com/timlukeymusic" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-facebook" aria-hidden="true"></i><span>Facebook</span>
+            </a>
+            <a href="https://www.instagram.com/timlukeymusic/" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-instagram" aria-hidden="true"></i><span>Instagram</span>
+            </a>
+            <a href="https://www.youtube.com/@TimLukeyMusic" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-youtube" aria-hidden="true"></i><span>YouTube</span>
+            </a>
+            <a href="https://www.tiktok.com/@timlukeymusic" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-tiktok" aria-hidden="true"></i><span>TikTok</span>
+            </a>
+        </div>
+        <p class="site-footer__meta">&copy; <span data-current-year></span> Tim Lukey Music</p>
+    </div>
+</footer>
+</body>
 </html>
