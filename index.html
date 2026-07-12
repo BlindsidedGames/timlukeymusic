@@ -11,9 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./modern.css?v=20260712-6">
+    <link rel="stylesheet" href="./modern.css?v=20260713-2">
     <script>document.documentElement.classList.add('js');</script>
-    <script src="./Scripts/site.js?v=20260712-6" defer></script>
+    <script src="./Scripts/site.js?v=20260713-2" defer></script>
 </head>
 <body class="modern-page home-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -118,14 +118,87 @@
                 </button>
 
                 <div class="work-resources">
-                    <a href="./Files/Tim Lukey - Directions - 01 Saiorse.mp3">
-                        <span>
-                            <small>2018 EP</small>
-                            Directions
-                        </span>
-                        <i class="bi bi-play-circle" aria-hidden="true"></i>
-                    </a>
-                    <a href="./Files/Arranger Portfolio.pdf" target="_blank" rel="noopener noreferrer">
+                    <div class="directions-player" data-directions-player role="region" aria-labelledby="directions-player-title">
+                        <h3 class="sr-only" id="directions-player-title">Directions EP player</h3>
+
+                        <div class="directions-player__bar">
+                            <button class="directions-player__disclosure" type="button" aria-expanded="false" aria-controls="directions-player-panel" aria-label="View tracks for Directions" data-directions-toggle>
+                                <span class="directions-player__identity">
+                                    <small data-directions-summary>2018 EP · 5 tracks</small>
+                                    <span class="directions-player__name">Directions</span>
+                                </span>
+                                <span class="directions-player__view">
+                                    <span data-directions-toggle-label>View tracks</span>
+                                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                            <button class="directions-player__play" type="button" aria-controls="directions-audio" aria-label="Play Directions by Tim Lukey" data-directions-play>
+                                <i class="bi bi-play-fill" aria-hidden="true"></i>
+                            </button>
+                        </div>
+
+                        <div class="directions-player__panel" id="directions-player-panel" data-directions-panel hidden>
+                            <div class="directions-player__now-playing">
+                                <p id="directions-current-track">
+                                    <span>Selected track</span>
+                                    <strong data-directions-current>Saiorse</strong>
+                                </p>
+                                <span data-directions-position>01 / 05</span>
+                            </div>
+
+                            <audio class="directions-player__audio" id="directions-audio" data-directions-audio controls preload="metadata" aria-label="Directions EP audio player" aria-describedby="directions-current-track" src="./Files/Tim%20Lukey%20-%20Directions%20-%2001%20Saiorse.mp3">
+                                <a href="./Files/Tim%20Lukey%20-%20Directions%20-%2001%20Saiorse.mp3">Play Saiorse</a>
+                            </audio>
+
+                            <ol class="directions-player__tracks" aria-label="Directions track list">
+                                <li>
+                                    <button type="button" data-directions-track data-track-src="./Files/Tim%20Lukey%20-%20Directions%20-%2001%20Saiorse.mp3" data-track-title="Saiorse" aria-current="true" aria-label="Play Saiorse, track 1 of 5, 3 minutes 43 seconds">
+                                        <span class="directions-player__track-number" aria-hidden="true">01</span>
+                                        <span>Saiorse</span>
+                                        <time datetime="PT3M43S">3:43</time>
+                                        <i class="bi bi-soundwave directions-player__track-indicator" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-directions-track data-track-src="./Files/Tim%20Lukey%20-%20Directions%20-%2002%20Nostalgia.mp3" data-track-title="Nostalgia" aria-label="Play Nostalgia, track 2 of 5, 4 minutes 32 seconds">
+                                        <span class="directions-player__track-number" aria-hidden="true">02</span>
+                                        <span>Nostalgia</span>
+                                        <time datetime="PT4M32S">4:32</time>
+                                        <i class="bi bi-soundwave directions-player__track-indicator" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-directions-track data-track-src="./Files/Tim%20Lukey%20-%20Directions%20-%2003%20What%20a%20Wonderful%20World.mp3" data-track-title="What a Wonderful World" aria-label="Play What a Wonderful World, track 3 of 5, 4 minutes 8 seconds">
+                                        <span class="directions-player__track-number" aria-hidden="true">03</span>
+                                        <span>What a Wonderful World</span>
+                                        <time datetime="PT4M8S">4:08</time>
+                                        <i class="bi bi-soundwave directions-player__track-indicator" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-directions-track data-track-src="./Files/Tim%20Lukey%20-%20Directions%20-%2004%20Stratosphere.mp3" data-track-title="Stratosphere" aria-label="Play Stratosphere, track 4 of 5, 7 minutes 47 seconds">
+                                        <span class="directions-player__track-number" aria-hidden="true">04</span>
+                                        <span>Stratosphere</span>
+                                        <time datetime="PT7M47S">7:47</time>
+                                        <i class="bi bi-soundwave directions-player__track-indicator" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" data-directions-track data-track-src="./Files/Tim%20Lukey%20-%20Directions%20-%2005%20Barcelona.mp3" data-track-title="Barcelona" aria-label="Play Barcelona, track 5 of 5, 5 minutes 43 seconds">
+                                        <span class="directions-player__track-number" aria-hidden="true">05</span>
+                                        <span>Barcelona</span>
+                                        <time datetime="PT5M43S">5:43</time>
+                                        <i class="bi bi-soundwave directions-player__track-indicator" aria-hidden="true"></i>
+                                    </button>
+                                </li>
+                            </ol>
+
+                        </div>
+
+                        <span class="sr-only" data-directions-status role="status" aria-live="polite" aria-atomic="true"></span>
+                    </div>
+
+                    <a class="work-resource-link" href="./Files/Arranger Portfolio.pdf" target="_blank" rel="noopener noreferrer">
                         <span>
                             <small>PDF</small>
                             Arranger Portfolio

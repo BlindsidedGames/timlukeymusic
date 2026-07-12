@@ -162,6 +162,7 @@
     });
 
     initialiseFeaturedVideo();
+    initialiseDirectionsPlayer();
     initialiseContactForm();
 })();
 
@@ -173,14 +174,19 @@ function initialiseFeaturedVideo() {
     let iframe = null;
 
     function loadPlayer() {
+        document.querySelectorAll('audio').forEach(function (audio) {
+            if (!audio.paused) audio.pause();
+        });
+
         if (iframe) {
             iframe.focus();
             return;
         }
 
         const status = player.querySelector('[data-video-status]');
+        const videoOrigin = encodeURIComponent(window.location.origin);
         iframe = document.createElement('iframe');
-        iframe.src = 'https://www.youtube-nocookie.com/embed/FvdDH5vmQ40?autoplay=1&rel=0';
+        iframe.src = 'https://www.youtube-nocookie.com/embed/FvdDH5vmQ40?autoplay=1&rel=0&enablejsapi=1&origin=' + videoOrigin;
         iframe.title = 'Tim Lukey Music showreel';
         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         iframe.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -197,6 +203,205 @@ function initialiseFeaturedVideo() {
     triggers.forEach(function (trigger) {
         trigger.addEventListener('click', loadPlayer);
     });
+}
+
+function pauseFeaturedVideo() {
+    const iframe = document.querySelector('[data-video-player] iframe');
+    if (!iframe || !iframe.contentWindow) return;
+
+    try {
+        iframe.contentWindow.postMessage(JSON.stringify({
+            event: 'command',
+            func: 'pauseVideo',
+            args: []
+        }), 'https://www.youtube-nocookie.com');
+    } catch (error) {
+        // Playback remains usable even if the embedded player rejects the command.
+    }
+}
+
+function initialiseDirectionsPlayer() {
+    const player = document.querySelector('[data-directions-player]');
+    if (!player) return;
+
+    const audio = player.querySelector('[data-directions-audio]');
+    const disclosure = player.querySelector('[data-directions-toggle]');
+    const panel = player.querySelector('[data-directions-panel]');
+    const toggleLabel = player.querySelector('[data-directions-toggle-label]');
+    const playButton = player.querySelector('[data-directions-play]');
+    const playIcon = playButton ? playButton.querySelector('i') : null;
+    const currentTrack = player.querySelector('[data-directions-current]');
+    const position = player.querySelector('[data-directions-position]');
+    const summary = player.querySelector('[data-directions-summary]');
+    const status = player.querySelector('[data-directions-status]');
+    const tracks = Array.from(player.querySelectorAll('[data-directions-track]'));
+
+    if (!audio || !disclosure || !panel || !playButton || !tracks.length) return;
+
+    let activeIndex = Math.max(0, tracks.findIndex(function (track) {
+        return track.getAttribute('aria-current') === 'true';
+    }));
+    let hasStarted = false;
+
+    function titleFor(index) {
+        const track = tracks[index];
+        return track ? String(track.dataset.trackTitle || 'Directions') : 'Directions';
+    }
+
+    function announce(message) {
+        if (!status) return;
+        status.textContent = '';
+        window.requestAnimationFrame(function () {
+            status.textContent = message;
+        });
+    }
+
+    function setOpen(open) {
+        panel.hidden = !open;
+        player.classList.toggle('is-open', open);
+        disclosure.setAttribute('aria-expanded', String(open));
+        disclosure.setAttribute('aria-label', (open ? 'Hide' : 'View') + ' tracks for Directions');
+        if (toggleLabel) toggleLabel.textContent = open ? 'Hide tracks' : 'View tracks';
+    }
+
+    function setSummary(label) {
+        if (!summary) return;
+        summary.textContent = label || '2018 EP · 5 tracks';
+    }
+
+    function updateTrackSelection() {
+        const title = titleFor(activeIndex);
+
+        tracks.forEach(function (track, index) {
+            if (index === activeIndex) {
+                track.setAttribute('aria-current', 'true');
+            } else {
+                track.removeAttribute('aria-current');
+            }
+        });
+
+        if (currentTrack) currentTrack.textContent = title;
+        if (position) {
+            position.textContent = String(activeIndex + 1).padStart(2, '0') + ' / ' + String(tracks.length).padStart(2, '0');
+        }
+    }
+
+    function updatePlaybackControls() {
+        const title = titleFor(activeIndex);
+        const isPlaying = !audio.paused && !audio.ended;
+
+        playButton.classList.toggle('is-playing', isPlaying);
+        playButton.setAttribute('aria-label', (isPlaying ? 'Pause ' : 'Play ') + title + ' from Directions');
+
+        if (playIcon) {
+            playIcon.classList.toggle('bi-play-fill', !isPlaying);
+            playIcon.classList.toggle('bi-pause-fill', isPlaying);
+        }
+    }
+
+    function playCurrentTrack() {
+        setOpen(true);
+        const playRequest = audio.play();
+        if (playRequest && typeof playRequest.catch === 'function') {
+            playRequest.catch(function () {
+                setSummary('Ready · ' + titleFor(activeIndex));
+                announce(titleFor(activeIndex) + ' is ready. Use the audio controls to play.');
+                updatePlaybackControls();
+            });
+        }
+    }
+
+    function selectTrack(index, shouldPlay) {
+        const track = tracks[index];
+        if (!track) return;
+
+        const source = new URL(track.dataset.trackSrc, window.location.href).href;
+        const isSameTrack = activeIndex === index && (audio.src === source || audio.currentSrc === source);
+
+        if (isSameTrack && !audio.paused && !audio.ended) {
+            setOpen(true);
+            setSummary('Playing · ' + titleFor(index));
+            announce('Playing ' + titleFor(index) + '.');
+            updateTrackSelection();
+            updatePlaybackControls();
+            return;
+        }
+
+        if (audio.src !== source && audio.currentSrc !== source) {
+            audio.src = source;
+            audio.load();
+        } else if (audio.ended) {
+            audio.currentTime = 0;
+        }
+
+        activeIndex = index;
+        hasStarted = false;
+        updateTrackSelection();
+        updatePlaybackControls();
+        setSummary('Selected · ' + titleFor(index));
+        setOpen(true);
+        announce('Selected track ' + (index + 1) + ' of ' + tracks.length + ': ' + titleFor(index) + '.');
+
+        if (shouldPlay) playCurrentTrack();
+    }
+
+    disclosure.addEventListener('click', function () {
+        setOpen(disclosure.getAttribute('aria-expanded') !== 'true');
+    });
+
+    playButton.addEventListener('click', function () {
+        if (audio.paused || audio.ended) {
+            if (audio.ended) audio.currentTime = 0;
+            playCurrentTrack();
+        } else {
+            audio.pause();
+        }
+    });
+
+    tracks.forEach(function (track, index) {
+        track.addEventListener('click', function () {
+            selectTrack(index, true);
+        });
+    });
+
+    audio.addEventListener('play', function () {
+        hasStarted = true;
+        pauseFeaturedVideo();
+        setSummary('Playing · ' + titleFor(activeIndex));
+        announce('Playing ' + titleFor(activeIndex) + '.');
+        updatePlaybackControls();
+    });
+
+    audio.addEventListener('pause', function () {
+        if (hasStarted && !audio.ended) {
+            setSummary('Paused · ' + titleFor(activeIndex));
+            announce('Paused ' + titleFor(activeIndex) + '.');
+        }
+        updatePlaybackControls();
+    });
+
+    audio.addEventListener('ended', function () {
+        if (activeIndex < tracks.length - 1) {
+            selectTrack(activeIndex + 1, true);
+            return;
+        }
+
+        hasStarted = false;
+        setSummary('Finished · Directions');
+        announce('Directions EP finished.');
+        updatePlaybackControls();
+    });
+
+    audio.addEventListener('error', function () {
+        hasStarted = false;
+        setSummary('Unavailable · ' + titleFor(activeIndex));
+        announce('This track could not be loaded. Please choose another track.');
+        updatePlaybackControls();
+    });
+
+    updateTrackSelection();
+    updatePlaybackControls();
+    setOpen(false);
 }
 
 function setContactVerificationState(verified) {

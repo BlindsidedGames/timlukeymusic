@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "timlukeymusic-beta",
   "compatibility_date": "2026-07-12",
-  "pages_build_output_dir": ".",
+  "pages_build_output_dir": "./dist",
   "vars": {
     "CONTACT_RATE_LIMIT_WINDOW_SECONDS": "600",
     "CONTACT_RATE_LIMIT_MAX_REQUESTS": "5",
