@@ -226,26 +226,78 @@ function initialiseDirectionsPlayer() {
 
     const audio = player.querySelector('[data-directions-audio]');
     const disclosure = player.querySelector('[data-directions-toggle]');
+    const bar = player.querySelector('.directions-player__bar');
     const panel = player.querySelector('[data-directions-panel]');
     const toggleLabel = player.querySelector('[data-directions-toggle-label]');
     const playButton = player.querySelector('[data-directions-play]');
     const playIcon = playButton ? playButton.querySelector('i') : null;
     const currentTrack = player.querySelector('[data-directions-current]');
     const position = player.querySelector('[data-directions-position]');
-    const summary = player.querySelector('[data-directions-summary]');
+    const expandedPlaySlot = player.querySelector('[data-directions-play-slot]');
+    const playbackState = player.querySelector('[data-directions-state]');
     const status = player.querySelector('[data-directions-status]');
     const tracks = Array.from(player.querySelectorAll('[data-directions-track]'));
+    const customControls = player.querySelector('[data-directions-controls]');
+    const seekControl = player.querySelector('[data-directions-seek]');
+    const currentTimeNode = player.querySelector('[data-directions-current-time]');
+    const durationNode = player.querySelector('[data-directions-duration]');
+    const muteButton = player.querySelector('[data-directions-mute]');
+    const muteIcon = muteButton ? muteButton.querySelector('i') : null;
+    const volumeControl = player.querySelector('[data-directions-volume]');
+    const volumeControls = player.querySelector('[data-directions-volume-controls]');
 
-    if (!audio || !disclosure || !panel || !playButton || !tracks.length) return;
+    if (!audio || !disclosure || !bar || !panel || !playButton || !tracks.length) return;
 
+    const canUseCustomControls = Boolean(
+        customControls && seekControl && currentTimeNode && durationNode &&
+        muteButton && muteIcon && volumeControl && volumeControls
+    );
     let activeIndex = Math.max(0, tracks.findIndex(function (track) {
         return track.getAttribute('aria-current') === 'true';
     }));
     let hasStarted = false;
+    let isSeeking = false;
+    let lastNonZeroVolume = audio.volume > 0 ? audio.volume : 1;
 
     function titleFor(index) {
         const track = tracks[index];
         return track ? String(track.dataset.trackTitle || 'Directions') : 'Directions';
+    }
+
+    function fallbackDurationFor(index) {
+        const track = tracks[index];
+        const duration = track ? Number(track.dataset.trackDuration) : 0;
+        return Number.isFinite(duration) && duration > 0 ? duration : 0;
+    }
+
+    function formatTime(seconds) {
+        const safeSeconds = Number.isFinite(seconds) && seconds > 0 ? Math.floor(seconds) : 0;
+        const minutes = Math.floor(safeSeconds / 60);
+        return minutes + ':' + String(safeSeconds % 60).padStart(2, '0');
+    }
+
+    function describeTime(seconds) {
+        const safeSeconds = Number.isFinite(seconds) && seconds > 0 ? Math.floor(seconds) : 0;
+        const minutes = Math.floor(safeSeconds / 60);
+        const remainder = safeSeconds % 60;
+        const parts = [];
+
+        if (minutes) parts.push(minutes + ' ' + (minutes === 1 ? 'minute' : 'minutes'));
+        if (remainder || !minutes) parts.push(remainder + ' ' + (remainder === 1 ? 'second' : 'seconds'));
+        return parts.join(' ');
+    }
+
+    function setTimeNode(node, seconds) {
+        if (!node) return;
+        const safeSeconds = Number.isFinite(seconds) && seconds > 0 ? seconds : 0;
+        node.textContent = formatTime(safeSeconds);
+        node.setAttribute('datetime', 'PT' + Math.floor(safeSeconds) + 'S');
+    }
+
+    function setRangeProgress(control, current, maximum) {
+        if (!control) return;
+        const progress = maximum > 0 ? Math.min(100, Math.max(0, (current / maximum) * 100)) : 0;
+        control.style.setProperty('--range-progress', progress.toFixed(2) + '%');
     }
 
     function announce(message) {
@@ -257,16 +309,21 @@ function initialiseDirectionsPlayer() {
     }
 
     function setOpen(open) {
-        panel.hidden = !open;
+        const useExpandedSlot = open && expandedPlaySlot && player.classList.contains('has-custom-audio');
+        const destination = useExpandedSlot ? expandedPlaySlot : bar;
+
+        if (open) panel.hidden = false;
+        if (destination && playButton.parentElement !== destination) destination.appendChild(playButton);
+        if (!open) panel.hidden = true;
+
         player.classList.toggle('is-open', open);
         disclosure.setAttribute('aria-expanded', String(open));
         disclosure.setAttribute('aria-label', (open ? 'Hide' : 'View') + ' tracks for Directions');
         if (toggleLabel) toggleLabel.textContent = open ? 'Hide tracks' : 'View tracks';
     }
 
-    function setSummary(label) {
-        if (!summary) return;
-        summary.textContent = label || '2018 EP · 5 tracks';
+    function setPlaybackState(label) {
+        if (playbackState) playbackState.textContent = label || 'Selected track';
     }
 
     function updateTrackSelection() {
@@ -284,12 +341,15 @@ function initialiseDirectionsPlayer() {
         if (position) {
             position.textContent = String(activeIndex + 1).padStart(2, '0') + ' / ' + String(tracks.length).padStart(2, '0');
         }
+
+        if (seekControl) seekControl.setAttribute('aria-label', 'Seek within ' + title);
     }
 
     function updatePlaybackControls() {
         const title = titleFor(activeIndex);
         const isPlaying = !audio.paused && !audio.ended;
 
+        player.classList.toggle('is-playing', isPlaying);
         playButton.classList.toggle('is-playing', isPlaying);
         playButton.setAttribute('aria-label', (isPlaying ? 'Pause ' : 'Play ') + title + ' from Directions');
 
@@ -299,13 +359,107 @@ function initialiseDirectionsPlayer() {
         }
     }
 
+    function resetTimeline() {
+        if (!canUseCustomControls) return;
+
+        const fallbackDuration = fallbackDurationFor(activeIndex);
+        isSeeking = false;
+        seekControl.disabled = true;
+        seekControl.min = '0';
+        seekControl.max = '0';
+        seekControl.value = '0';
+        seekControl.setAttribute('aria-valuetext', '0 seconds of ' + describeTime(fallbackDuration));
+        setRangeProgress(seekControl, 0, fallbackDuration);
+        setTimeNode(currentTimeNode, 0);
+        setTimeNode(durationNode, fallbackDuration);
+    }
+
+    function updateTimeline(force) {
+        if (!canUseCustomControls) return;
+
+        const mediaDuration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+        const displayedDuration = mediaDuration || fallbackDurationFor(activeIndex);
+        const mediaTime = Number.isFinite(audio.currentTime) && audio.currentTime > 0 ? audio.currentTime : 0;
+        const current = displayedDuration > 0 ? Math.min(mediaTime, displayedDuration) : mediaTime;
+
+        seekControl.disabled = !mediaDuration;
+        seekControl.max = mediaDuration ? String(mediaDuration) : '0';
+        if (!isSeeking || force) seekControl.value = String(mediaDuration ? Math.min(current, mediaDuration) : 0);
+
+        const displayedCurrent = isSeeking && !force ? Number(seekControl.value) : current;
+        setTimeNode(currentTimeNode, displayedCurrent);
+        setTimeNode(durationNode, displayedDuration);
+        setRangeProgress(seekControl, Number(seekControl.value), mediaDuration || displayedDuration);
+        seekControl.setAttribute('aria-valuetext', describeTime(displayedCurrent) + ' of ' + describeTime(displayedDuration));
+    }
+
+    function previewSeek() {
+        if (!canUseCustomControls || seekControl.disabled) return;
+
+        const maximum = Number(seekControl.max);
+        const requestedTime = Number(seekControl.value);
+        if (!Number.isFinite(maximum) || maximum <= 0 || !Number.isFinite(requestedTime)) return;
+
+        const nextTime = Math.min(maximum, Math.max(0, requestedTime));
+        isSeeking = true;
+        setTimeNode(currentTimeNode, nextTime);
+        setRangeProgress(seekControl, nextTime, maximum);
+        seekControl.setAttribute('aria-valuetext', describeTime(nextTime) + ' of ' + describeTime(maximum));
+
+        try {
+            audio.currentTime = nextTime;
+        } catch (error) {
+            // Keep the native audio fallback usable if the media is not seekable yet.
+        }
+    }
+
+    function finishSeeking() {
+        if (!canUseCustomControls) return;
+        isSeeking = false;
+        updateTimeline(true);
+    }
+
+    function updateVolumeControls() {
+        if (!canUseCustomControls) return;
+
+        const volume = Number.isFinite(audio.volume) ? audio.volume : 1;
+        const isMuted = audio.muted || volume === 0;
+        muteButton.setAttribute('aria-pressed', String(isMuted));
+        muteIcon.classList.toggle('bi-volume-up-fill', !isMuted);
+        muteIcon.classList.toggle('bi-volume-mute-fill', isMuted);
+        volumeControl.value = String(volume);
+        volumeControl.setAttribute('aria-valuetext', Math.round(volume * 100) + ' percent');
+        setRangeProgress(volumeControl, volume, 1);
+
+        if (!isMuted && volume > 0) lastNonZeroVolume = volume;
+    }
+
+    function supportsScriptVolume() {
+        const originalVolume = audio.volume;
+        const testVolume = originalVolume > 0.98 ? 0.97 : Math.min(1, originalVolume + 0.02);
+
+        try {
+            audio.volume = testVolume;
+            const supported = Math.abs(audio.volume - testVolume) < 0.001;
+            audio.volume = originalVolume;
+            return supported;
+        } catch (error) {
+            try {
+                audio.volume = originalVolume;
+            } catch (restoreError) {
+                // Hardware volume remains available when script volume is unsupported.
+            }
+            return false;
+        }
+    }
+
     function playCurrentTrack() {
-        setOpen(true);
         const playRequest = audio.play();
         if (playRequest && typeof playRequest.catch === 'function') {
             playRequest.catch(function () {
-                setSummary('Ready · ' + titleFor(activeIndex));
-                announce(titleFor(activeIndex) + ' is ready. Use the audio controls to play.');
+                player.classList.remove('is-buffering');
+                setPlaybackState('Ready');
+                announce(titleFor(activeIndex) + ' is ready. Use the play button to try again.');
                 updatePlaybackControls();
             });
         }
@@ -320,25 +474,29 @@ function initialiseDirectionsPlayer() {
 
         if (isSameTrack && !audio.paused && !audio.ended) {
             setOpen(true);
-            setSummary('Playing · ' + titleFor(index));
+            setPlaybackState('Playing');
             announce('Playing ' + titleFor(index) + '.');
             updateTrackSelection();
             updatePlaybackControls();
             return;
         }
 
+        activeIndex = index;
+
         if (audio.src !== source && audio.currentSrc !== source) {
+            hasStarted = false;
+            player.classList.remove('is-buffering');
+            resetTimeline();
             audio.src = source;
             audio.load();
         } else if (audio.ended) {
             audio.currentTime = 0;
         }
 
-        activeIndex = index;
-        hasStarted = false;
         updateTrackSelection();
         updatePlaybackControls();
-        setSummary('Selected · ' + titleFor(index));
+        updateTimeline(true);
+        setPlaybackState('Selected track');
         setOpen(true);
         announce('Selected track ' + (index + 1) + ' of ' + tracks.length + ': ' + titleFor(index) + '.');
 
@@ -367,14 +525,21 @@ function initialiseDirectionsPlayer() {
     audio.addEventListener('play', function () {
         hasStarted = true;
         pauseFeaturedVideo();
-        setSummary('Playing · ' + titleFor(activeIndex));
+        setPlaybackState('Playing');
         announce('Playing ' + titleFor(activeIndex) + '.');
         updatePlaybackControls();
     });
 
+    audio.addEventListener('playing', function () {
+        player.classList.remove('is-buffering');
+        setPlaybackState('Playing');
+        updatePlaybackControls();
+    });
+
     audio.addEventListener('pause', function () {
+        player.classList.remove('is-buffering');
         if (hasStarted && !audio.ended) {
-            setSummary('Paused · ' + titleFor(activeIndex));
+            setPlaybackState('Paused');
             announce('Paused ' + titleFor(activeIndex) + '.');
         }
         updatePlaybackControls();
@@ -387,21 +552,117 @@ function initialiseDirectionsPlayer() {
         }
 
         hasStarted = false;
-        setSummary('Finished · Directions');
+        setPlaybackState('Finished');
         announce('Directions EP finished.');
+        updateTimeline(true);
         updatePlaybackControls();
+    });
+
+    audio.addEventListener('waiting', function () {
+        if (!hasStarted) return;
+        player.classList.add('is-buffering');
+        setPlaybackState('Loading');
+    });
+
+    audio.addEventListener('canplay', function () {
+        player.classList.remove('is-buffering');
+        if (hasStarted && !audio.paused) setPlaybackState('Playing');
+        updateTimeline(true);
+    });
+
+    audio.addEventListener('loadedmetadata', function () {
+        updateTimeline(true);
+    });
+
+    audio.addEventListener('durationchange', function () {
+        updateTimeline(true);
+    });
+
+    audio.addEventListener('timeupdate', function () {
+        updateTimeline(false);
     });
 
     audio.addEventListener('error', function () {
         hasStarted = false;
-        setSummary('Unavailable · ' + titleFor(activeIndex));
+        player.classList.remove('is-buffering');
+        setPlaybackState('Unavailable');
         announce('This track could not be loaded. Please choose another track.');
+        resetTimeline();
         updatePlaybackControls();
     });
 
     updateTrackSelection();
     updatePlaybackControls();
     setOpen(false);
+
+    if (!canUseCustomControls) return;
+
+    try {
+        seekControl.addEventListener('pointerdown', function () {
+            if (!seekControl.disabled) isSeeking = true;
+        });
+        seekControl.addEventListener('input', previewSeek);
+        seekControl.addEventListener('change', finishSeeking);
+        seekControl.addEventListener('pointerup', finishSeeking);
+        seekControl.addEventListener('pointercancel', finishSeeking);
+        seekControl.addEventListener('blur', finishSeeking);
+
+        muteButton.addEventListener('click', function () {
+            const isMuted = audio.muted || audio.volume === 0;
+
+            if (isMuted) {
+                audio.muted = false;
+                if (audio.volume === 0) {
+                    try {
+                        audio.volume = lastNonZeroVolume || 1;
+                    } catch (error) {
+                        // Mobile hardware volume remains available.
+                    }
+                }
+            } else {
+                if (audio.volume > 0) lastNonZeroVolume = audio.volume;
+                audio.muted = true;
+            }
+
+            updateVolumeControls();
+        });
+
+        volumeControl.addEventListener('input', function () {
+            const nextVolume = Math.min(1, Math.max(0, Number(volumeControl.value)));
+            if (!Number.isFinite(nextVolume)) return;
+
+            try {
+                audio.volume = nextVolume;
+                audio.muted = nextVolume === 0;
+                if (nextVolume > 0) lastNonZeroVolume = nextVolume;
+            } catch (error) {
+                volumeControl.hidden = true;
+                volumeControls.classList.add('has-hardware-volume');
+            }
+
+            updateVolumeControls();
+        });
+
+        audio.addEventListener('volumechange', updateVolumeControls);
+
+        if (!supportsScriptVolume()) {
+            volumeControl.hidden = true;
+            volumeControls.classList.add('has-hardware-volume');
+        }
+
+        resetTimeline();
+        updateTimeline(true);
+        updateVolumeControls();
+        audio.controls = false;
+        audio.hidden = true;
+        customControls.hidden = false;
+        player.classList.add('has-custom-audio');
+    } catch (error) {
+        audio.controls = true;
+        audio.hidden = false;
+        customControls.hidden = true;
+        player.classList.remove('has-custom-audio');
+    }
 }
 
 function setContactVerificationState(verified) {
