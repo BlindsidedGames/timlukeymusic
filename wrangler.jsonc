@@ -8,7 +8,7 @@
     "CONTACT_RATE_LIMIT_MAX_REQUESTS": "5",
     "CONTACT_EMAIL_FROM": "Tim Lukey Music <no-reply@timlukeymusic.com>",
     "CONTACT_TO_EMAIL": "timlukeymusic@gmail.com",
-    "PUBLIC_TURNSTILE_SITE_KEY": ""
+    "PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAD0uGb8102y6B24E"
   },
   "kv_namespaces": [
     {
