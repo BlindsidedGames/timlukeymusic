@@ -95,7 +95,10 @@ export async function onRequestPost(context) {
             ok: false,
             error: {
                 code: 'delivery_failed',
-                message: 'Message could not be delivered right now. Please retry or contact Tim directly.'
+                message: 'Message could not be delivered right now. Please retry or contact Tim directly.',
+                fields: {
+                    turnstileToken: 'Please complete the security check again before retrying.'
+                }
             }
         });
     }

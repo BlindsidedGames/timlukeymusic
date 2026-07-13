@@ -6,17 +6,74 @@
     const servicesNav = document.querySelector('.services-nav');
     const servicesToggle = document.querySelector('.services-nav__toggle');
     const mobileBreakpoint = window.matchMedia('(max-width: 900px)');
+    let lockedScrollPosition = 0;
+    let scrollIsLocked = false;
+    let previousBodyTop = '';
+
+    function lockPageScroll() {
+        if (scrollIsLocked) return;
+
+        lockedScrollPosition = Math.max(0, window.scrollY || document.documentElement.scrollTop || 0);
+        previousBodyTop = body.style.top;
+        body.style.top = '-' + lockedScrollPosition + 'px';
+        document.documentElement.classList.add('nav-open');
+        body.classList.add('nav-open');
+        scrollIsLocked = true;
+    }
+
+    function unlockPageScroll() {
+        document.documentElement.classList.remove('nav-open');
+        body.classList.remove('nav-open');
+
+        if (!scrollIsLocked) return;
+
+        body.style.top = previousBodyTop;
+        const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto';
+        window.scrollTo(0, lockedScrollPosition);
+        document.documentElement.style.scrollBehavior = previousScrollBehavior;
+        scrollIsLocked = false;
+    }
 
     function setMenu(open) {
         if (!menuToggle || !navigation) return;
-        navigation.classList.toggle('is-open', open);
-        menuToggle.setAttribute('aria-expanded', String(open));
-        body.classList.toggle('nav-open', open && mobileBreakpoint.matches);
+        const wasOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+        const shouldOpen = Boolean(open && mobileBreakpoint.matches);
+        navigation.classList.toggle('is-open', shouldOpen);
+        menuToggle.setAttribute('aria-expanded', String(shouldOpen));
+
+        if (shouldOpen) {
+            lockPageScroll();
+            if (!wasOpen) {
+                window.requestAnimationFrame(function () {
+                    if (menuToggle.getAttribute('aria-expanded') !== 'true') return;
+                    const firstNavigationControl = navigation.querySelector('a[href], button:not([disabled])');
+                    if (!firstNavigationControl) return;
+
+                    try {
+                        firstNavigationControl.focus({ preventScroll: true });
+                    } catch (error) {
+                        firstNavigationControl.focus();
+                    }
+                });
+            }
+        } else {
+            unlockPageScroll();
+            setServicesMenu(false);
+
+            if (wasOpen && navigation.contains(document.activeElement)) {
+                try {
+                    menuToggle.focus({ preventScroll: true });
+                } catch (error) {
+                    menuToggle.focus();
+                }
+            }
+        }
 
         const icon = menuToggle.querySelector('i');
         if (icon) {
-            icon.classList.toggle('bi-list', !open);
-            icon.classList.toggle('bi-x-lg', open);
+            icon.classList.toggle('bi-list', !shouldOpen);
+            icon.classList.toggle('bi-x-lg', shouldOpen);
         }
     }
 
@@ -52,6 +109,23 @@
     });
 
     document.addEventListener('keydown', function (event) {
+        if (event.key === 'Tab' && header && menuToggle && navigation && menuToggle.getAttribute('aria-expanded') === 'true') {
+            const focusableControls = Array.from(header.querySelectorAll('a[href], button:not([disabled])')).filter(function (control) {
+                return control.getClientRects().length > 0 && control.getAttribute('aria-hidden') !== 'true';
+            });
+            const firstControl = focusableControls[0];
+            const lastControl = focusableControls[focusableControls.length - 1];
+
+            if (firstControl && lastControl && event.shiftKey && document.activeElement === firstControl) {
+                event.preventDefault();
+                lastControl.focus();
+            } else if (firstControl && lastControl && !event.shiftKey && document.activeElement === lastControl) {
+                event.preventDefault();
+                firstControl.focus();
+            }
+            return;
+        }
+
         if (event.key !== 'Escape') return;
 
         if (servicesToggle && servicesToggle.getAttribute('aria-expanded') === 'true') {
@@ -66,10 +140,21 @@
         }
     });
 
-    mobileBreakpoint.addEventListener('change', function () {
+    function handleBreakpointChange() {
         setMenu(false);
-        setServicesMenu(false);
+    }
+
+    if (typeof mobileBreakpoint.addEventListener === 'function') {
+        mobileBreakpoint.addEventListener('change', handleBreakpointChange);
+    } else if (typeof mobileBreakpoint.addListener === 'function') {
+        mobileBreakpoint.addListener(handleBreakpointChange);
+    }
+
+    window.addEventListener('pageshow', function (event) {
+        if (event.persisted) setMenu(false);
     });
+
+    setMenu(false);
 
     function updateHeader() {
         if (header) header.classList.toggle('is-scrolled', window.scrollY > 18);
@@ -679,6 +764,38 @@ function setContactVerificationState(verified) {
     form.classList.toggle('is-verified', verified);
 }
 
+function setTurnstileGateState(form, state, options) {
+    if (!form) return;
+
+    const gate = form.querySelector('[data-verification-gate]');
+    const title = form.querySelector('[data-verification-title]');
+    const message = form.querySelector('[data-verification-message]');
+    const loading = form.querySelector('[data-verification-loading]');
+    const verification = form.querySelector('[data-verification-wrap]');
+    const fallback = form.querySelector('[data-verification-fallback]');
+    const failureMessage = form.querySelector('[data-verification-failure-message]');
+    const settings = options || {};
+
+    if (!gate) return;
+
+    if (state !== 'loading' && window.contactVerificationFallbackTimer) {
+        window.clearTimeout(window.contactVerificationFallbackTimer);
+        window.contactVerificationFallbackTimer = null;
+    }
+
+    gate.dataset.verificationState = state;
+    gate.setAttribute('aria-busy', String(state === 'loading'));
+    if (title && settings.title) title.textContent = settings.title;
+    if (message && settings.message) message.textContent = settings.message;
+    if (failureMessage && settings.failureMessage) failureMessage.textContent = settings.failureMessage;
+    if (loading) loading.hidden = state !== 'loading';
+    if (verification) {
+        verification.hidden = state !== 'ready';
+        if (state === 'loading') verification.classList.remove('has-error');
+    }
+    if (fallback) fallback.hidden = state !== 'error' && state !== 'unavailable';
+}
+
 function showContactSuccess() {
     const form = document.getElementById('contactForm');
     if (!form) return;
@@ -703,9 +820,18 @@ function initialiseContactForm() {
     const submitButton = form.querySelector('button[type="submit"]');
     const submitLabel = submitButton ? submitButton.querySelector('[data-submit-label]') : null;
     const status = form.querySelector('[data-form-status]');
+    const verificationRetry = form.querySelector('[data-turnstile-retry]');
 
     setContactVerificationState(false);
     initialiseTurnstileWidget(form);
+
+    if (verificationRetry) {
+        verificationRetry.addEventListener('click', function () {
+            initialiseTurnstileWidget(form, true);
+            const verificationGate = form.querySelector('[data-verification-gate]');
+            if (verificationGate) verificationGate.focus();
+        });
+    }
 
     function field(name) {
         return form.elements.namedItem(name);
@@ -837,6 +963,10 @@ function initialiseContactForm() {
                             window.turnstile.reset();
                         }
                         setContactVerificationState(false);
+                        setTurnstileGateState(form, 'ready', {
+                            title: 'Verify to continue',
+                            message: 'Complete the security check again to return to your enquiry.'
+                        });
                     }
 
                     Object.keys(fieldErrors).forEach(function (name) {
@@ -872,10 +1002,38 @@ function initialiseContactForm() {
     });
 }
 
-async function initialiseTurnstileWidget(form) {
+async function initialiseTurnstileWidget(form, forceRetry) {
     const widget = form.querySelector('[data-turnstile-widget]');
     const error = form.querySelector('[data-error-for="turnstileToken"]');
     if (!widget) return;
+
+    const input = form.querySelector('input[name="turnstileToken"]');
+    const attempt = Number(form.dataset.turnstileAttempt || 0) + 1;
+    form.dataset.turnstileAttempt = String(attempt);
+
+    if (input) {
+        input.value = '';
+        input.setAttribute('aria-invalid', 'false');
+    }
+    if (error) error.textContent = '';
+
+    if (forceRetry) {
+        if (form._turnstileWidgetId !== undefined && window.turnstile && typeof window.turnstile.remove === 'function') {
+            try {
+                window.turnstile.remove(form._turnstileWidgetId);
+            } catch (removeError) {
+                // The widget may already have removed itself after a load failure.
+            }
+        }
+        form._turnstileWidgetId = undefined;
+        widget.replaceChildren();
+    }
+
+    setContactVerificationState(false);
+    setTurnstileGateState(form, 'loading', {
+        title: 'Preparing your enquiry form',
+        message: 'Loading the secure verification\u2026'
+    });
 
     const localHosts = ['localhost', '127.0.0.1', '::1'];
     const isLocalPreview = localHosts.includes(window.location.hostname);
@@ -894,12 +1052,21 @@ async function initialiseTurnstileWidget(form) {
         siteKey = '';
     }
 
-    if (!siteKey && isLocalPreview) {
+    if (String(attempt) !== form.dataset.turnstileAttempt) return;
+
+    const useLocalTestKey = isLocalPreview
+        && new URLSearchParams(window.location.search).get('turnstile-test') === '1';
+
+    if (!siteKey && useLocalTestKey) {
         siteKey = '1x00000000000000000000AA';
     }
 
     if (!siteKey) {
-        if (error) error.textContent = 'Secure verification is not configured for this deployment.';
+        setTurnstileGateState(form, 'unavailable', {
+            title: 'Online enquiries are temporarily unavailable',
+            message: 'The secure form is not available right now, but you can still contact Tim directly.',
+            failureMessage: 'Try again in a moment, or use one of the direct contact options below.'
+        });
         return;
     }
 
@@ -908,19 +1075,42 @@ async function initialiseTurnstileWidget(form) {
         await new Promise(function (resolve) { window.setTimeout(resolve, 200); });
     }
 
+    if (String(attempt) !== form.dataset.turnstileAttempt) return;
+
     if (!window.turnstile || typeof window.turnstile.render !== 'function') {
-        if (error) error.textContent = 'Secure verification could not load. Please refresh and try again.';
+        setTurnstileGateState(form, 'error', {
+            title: 'The security check did not load',
+            message: 'Check your connection or content blocker, then try again.',
+            failureMessage: 'The secure verification service could not be reached.'
+        });
         return;
     }
 
-    window.turnstile.render(widget, {
-        sitekey: siteKey,
-        theme: 'dark',
-        size: window.matchMedia('(max-width: 359px)').matches ? 'compact' : 'flexible',
-        callback: window.onTurnstileSuccess,
-        'expired-callback': window.onTurnstileExpired,
-        'error-callback': window.onTurnstileError
-    });
+    try {
+        form._turnstileWidgetId = window.turnstile.render(widget, {
+            sitekey: siteKey,
+            theme: 'dark',
+            size: window.matchMedia('(max-width: 359px)').matches ? 'compact' : 'flexible',
+            callback: window.onTurnstileSuccess,
+            'expired-callback': window.onTurnstileExpired,
+            'error-callback': window.onTurnstileError
+        });
+
+        const verificationGate = form.querySelector('[data-verification-gate]');
+        if (verificationGate && verificationGate.dataset.verificationState === 'loading') {
+            setTurnstileGateState(form, 'ready', {
+                title: 'Verify to continue',
+                message: 'Complete the quick security check to open the enquiry form.'
+            });
+        }
+    } catch (renderError) {
+        form._turnstileWidgetId = undefined;
+        setTurnstileGateState(form, 'error', {
+            title: 'The security check did not load',
+            message: 'Check your connection or content blocker, then try again.',
+            failureMessage: 'The secure verification service could not be started.'
+        });
+    }
 }
 
 window.onTurnstileSuccess = function (token) {
@@ -933,7 +1123,15 @@ window.onTurnstileSuccess = function (token) {
     if (error) error.textContent = '';
     const verification = document.querySelector('.verification-wrap');
     if (verification) verification.classList.remove('has-error');
+    const form = document.getElementById('contactForm');
+    setTurnstileGateState(form, 'verified', {});
     setContactVerificationState(true);
+    const formTitle = form ? form.querySelector('#form-title') : null;
+    if (formTitle) {
+        window.requestAnimationFrame(function () {
+            formTitle.focus();
+        });
+    }
 };
 
 window.onTurnstileExpired = function () {
@@ -947,6 +1145,11 @@ window.onTurnstileExpired = function () {
     const verification = document.querySelector('.verification-wrap');
     if (verification) verification.classList.add('has-error');
     setContactVerificationState(false);
+    const form = document.getElementById('contactForm');
+    setTurnstileGateState(form, 'ready', {
+        title: 'Verification expired',
+        message: 'Complete the security check again to open the enquiry form.'
+    });
 };
 
 window.onTurnstileError = function () {
@@ -960,4 +1163,10 @@ window.onTurnstileError = function () {
     const verification = document.querySelector('.verification-wrap');
     if (verification) verification.classList.add('has-error');
     setContactVerificationState(false);
+    const form = document.getElementById('contactForm');
+    setTurnstileGateState(form, 'error', {
+        title: 'The security check did not load',
+        message: 'Check your connection or content blocker, then try again.',
+        failureMessage: 'The secure verification service reported an error.'
+    });
 };
