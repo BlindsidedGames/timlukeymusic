@@ -864,7 +864,7 @@ function initialiseContactForm() {
     }
 
     function clearErrors() {
-        ['name', 'email', 'service', 'subject', 'message', 'turnstileToken'].forEach(function (name) {
+        ['name', 'email', 'service', 'message', 'turnstileToken'].forEach(function (name) {
             setFieldError(name, '');
         });
     }
@@ -894,7 +894,6 @@ function initialiseContactForm() {
             name: String(field('name') ? field('name').value : '').trim(),
             email: String(field('email') ? field('email').value : '').trim(),
             service: String(field('service') ? field('service').value : '').trim(),
-            subject: String(field('subject') ? field('subject').value : '').trim(),
             message: String(field('message') ? field('message').value : '').trim(),
             turnstileToken: String(field('turnstileToken') ? field('turnstileToken').value : '').trim()
         };
@@ -905,7 +904,6 @@ function initialiseContactForm() {
         if (data.name.length < 2) errors.name = 'Please enter your name.';
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) errors.email = 'Please enter a valid email address.';
         if (!data.service) errors.service = 'Please choose a service.';
-        if (data.subject.length < 3) errors.subject = 'Please add a short subject.';
         if (data.message.length < 12) errors.message = 'Please include a little more detail.';
         if (field('turnstileToken') && !data.turnstileToken) errors.turnstileToken = 'Please complete the verification.';
         return errors;

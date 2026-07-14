@@ -20,7 +20,6 @@ export function parseAndValidateContactRequest(input) {
         name: sanitiseValue(input.name, 120),
         email: sanitiseValue(input.email, 160),
         service: sanitiseValue(input.service, 120),
-        subject: sanitiseValue(input.subject, 160),
         message: sanitiseValue(input.message, 5000),
         turnstileToken: sanitiseValue(input.turnstileToken, 4000)
     };
@@ -29,7 +28,6 @@ export function parseAndValidateContactRequest(input) {
     if (data.name.length < 2) fields.name = 'Name must be at least 2 characters.';
     if (!EMAIL_REGEX.test(data.email)) fields.email = 'Enter a valid email address.';
     if (!data.service) fields.service = 'Choose the service you are interested in.';
-    if (data.subject.length < 3) fields.subject = 'Subject must be at least 3 characters.';
     if (data.message.length < 12) fields.message = 'Message must be at least 12 characters.';
     if (!data.turnstileToken) fields.turnstileToken = 'Secure verification is required.';
 
@@ -152,7 +150,6 @@ export async function sendContactEmail(payload, env) {
         'Name: ' + payload.name,
         'Email: ' + payload.email,
         'Service: ' + payload.service,
-        'Subject: ' + payload.subject,
         '',
         payload.message
     ].join('\n');
@@ -167,7 +164,7 @@ export async function sendContactEmail(payload, env) {
             from,
             to: [env.CONTACT_TO_EMAIL],
             reply_to: payload.email,
-            subject: '[Website Contact] ' + payload.subject,
+            subject: '[Website Contact] ' + payload.service + ' enquiry from ' + payload.name,
             text: messageText
         })
     });
