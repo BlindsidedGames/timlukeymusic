@@ -19,7 +19,8 @@ const rootFiles = [
     'contact.html',
     'modern.css',
     '_headers',
-    'robots.txt'
+    'robots.txt',
+    'sitemap.xml'
 ];
 
 await rm(output, { recursive: true, force: true });
@@ -33,4 +34,4 @@ await copyFile(path.join(root, 'Scripts', 'site.js'), path.join(output, 'Scripts
 await cp(path.join(root, 'img'), path.join(output, 'img'), { recursive: true });
 await cp(path.join(root, 'Files'), path.join(output, 'Files'), { recursive: true });
 
-console.log('Prepared Cloudflare Pages beta output in dist/.');
+console.log('Prepared Cloudflare Pages output in dist/.');
