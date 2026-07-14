@@ -146,6 +146,9 @@ export async function verifyTurnstile(token, request, env) {
 
 export async function sendContactEmail(payload, env) {
     const from = env.CONTACT_EMAIL_FROM || 'Tim Lukey Music <no-reply@timlukeymusic.com>';
+    const enquiryType = /\b(?:enquiry|inquiry|enquiries|inquiries)$/i.test(payload.service)
+        ? payload.service
+        : payload.service + ' enquiry';
     const messageText = [
         'Name: ' + payload.name,
         'Email: ' + payload.email,
@@ -164,7 +167,7 @@ export async function sendContactEmail(payload, env) {
             from,
             to: [env.CONTACT_TO_EMAIL],
             reply_to: payload.email,
-            subject: payload.service + ' from ' + payload.name,
+            subject: enquiryType + ' from ' + payload.name,
             text: messageText
         })
     });
