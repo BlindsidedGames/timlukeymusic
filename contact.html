@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="./modern.css?v=20260713-7">
+    <link rel="stylesheet" href="./modern.css?v=20260714-8">
     <script>
         document.documentElement.classList.add('js');
         window.contactVerificationFallbackTimer = window.setTimeout(function () {
@@ -40,7 +40,7 @@
             if (failureMessage) failureMessage.textContent = 'The website scripts could not finish loading.';
         }, 10000);
     </script>
-    <script src="./Scripts/site.js?v=20260713-7" defer></script>
+    <script src="./Scripts/site.js?v=20260714-8" defer></script>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
 </head>
 <body class="modern-page contact-page">
@@ -231,10 +231,14 @@
                     </div>
                 </div>
 
-                <div class="contact-form__success" data-contact-success role="status" aria-live="polite" tabindex="-1" hidden>
+                <div class="contact-form__success" data-contact-success role="region" aria-labelledby="contact-success-title" tabindex="-1" hidden>
                     <i class="bi bi-check-circle" aria-hidden="true"></i>
-                    <h2>Message sent</h2>
-                    <p>Thanks for getting in touch. Tim will respond as soon as possible.</p>
+                    <h2 id="contact-success-title">Message sent</h2>
+                    <p role="status" aria-live="polite">Thanks for getting in touch. Tim will respond as soon as possible.</p>
+                    <button class="button button--secondary" type="button" data-contact-restart>
+                        <i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i>
+                        <span>Send another enquiry</span>
+                    </button>
                 </div>
             </form>
         </section>

@@ -753,6 +753,7 @@ function initialiseDirectionsPlayer() {
 function setContactVerificationState(verified) {
     const form = document.getElementById('contactForm');
     if (!form) return;
+    if (form.dataset.submissionState === 'success') return;
 
     const gate = form.querySelector('[data-verification-gate]');
     const fields = form.querySelector('[data-contact-fields]');
@@ -803,6 +804,19 @@ function showContactSuccess() {
     const gate = form.querySelector('[data-verification-gate]');
     const fields = form.querySelector('[data-contact-fields]');
     const success = form.querySelector('[data-contact-success]');
+    const widget = form.querySelector('[data-turnstile-widget]');
+
+    form.dataset.submissionState = 'success';
+
+    if (form._turnstileWidgetId !== undefined && window.turnstile && typeof window.turnstile.remove === 'function') {
+        try {
+            window.turnstile.remove(form._turnstileWidgetId);
+        } catch (removeError) {
+            // The submitted widget may already have finished removing itself.
+        }
+    }
+    form._turnstileWidgetId = undefined;
+    if (widget) widget.replaceChildren();
 
     if (gate) gate.hidden = true;
     if (fields) fields.hidden = true;
@@ -821,6 +835,7 @@ function initialiseContactForm() {
     const submitLabel = submitButton ? submitButton.querySelector('[data-submit-label]') : null;
     const status = form.querySelector('[data-form-status]');
     const verificationRetry = form.querySelector('[data-turnstile-retry]');
+    const contactRestart = form.querySelector('[data-contact-restart]');
 
     setContactVerificationState(false);
     initialiseTurnstileWidget(form);
@@ -830,6 +845,21 @@ function initialiseContactForm() {
             initialiseTurnstileWidget(form, true);
             const verificationGate = form.querySelector('[data-verification-gate]');
             if (verificationGate) verificationGate.focus();
+        });
+    }
+
+    if (contactRestart) {
+        contactRestart.addEventListener('click', function () {
+            delete form.dataset.submissionState;
+            const success = form.querySelector('[data-contact-success]');
+            if (success) success.hidden = true;
+            initialiseTurnstileWidget(form, true);
+            const verificationGate = form.querySelector('[data-verification-gate]');
+            if (verificationGate) {
+                window.requestAnimationFrame(function () {
+                    verificationGate.focus();
+                });
+            }
         });
     }
 
@@ -984,9 +1014,6 @@ function initialiseContactForm() {
             }
 
             form.reset();
-            if (window.turnstile && typeof window.turnstile.reset === 'function') {
-                window.turnstile.reset();
-            }
             setStatus('', '');
             showContactSuccess();
         } catch (error) {
@@ -1112,6 +1139,8 @@ async function initialiseTurnstileWidget(form, forceRetry) {
 }
 
 window.onTurnstileSuccess = function (token) {
+    const form = document.getElementById('contactForm');
+    if (!form || form.dataset.submissionState === 'success') return;
     const input = document.querySelector('input[name="turnstileToken"]');
     const error = document.querySelector('[data-error-for="turnstileToken"]');
     if (input) {
@@ -1121,7 +1150,6 @@ window.onTurnstileSuccess = function (token) {
     if (error) error.textContent = '';
     const verification = document.querySelector('.verification-wrap');
     if (verification) verification.classList.remove('has-error');
-    const form = document.getElementById('contactForm');
     setTurnstileGateState(form, 'verified', {});
     setContactVerificationState(true);
     const formTitle = form ? form.querySelector('#form-title') : null;
@@ -1133,6 +1161,8 @@ window.onTurnstileSuccess = function (token) {
 };
 
 window.onTurnstileExpired = function () {
+    const form = document.getElementById('contactForm');
+    if (!form || form.dataset.submissionState === 'success') return;
     const input = document.querySelector('input[name="turnstileToken"]');
     const error = document.querySelector('[data-error-for="turnstileToken"]');
     if (input) {
@@ -1143,7 +1173,6 @@ window.onTurnstileExpired = function () {
     const verification = document.querySelector('.verification-wrap');
     if (verification) verification.classList.add('has-error');
     setContactVerificationState(false);
-    const form = document.getElementById('contactForm');
     setTurnstileGateState(form, 'ready', {
         title: 'Verification expired',
         message: 'Complete the security check again to open the enquiry form.'
@@ -1151,6 +1180,8 @@ window.onTurnstileExpired = function () {
 };
 
 window.onTurnstileError = function () {
+    const form = document.getElementById('contactForm');
+    if (!form || form.dataset.submissionState === 'success') return;
     const input = document.querySelector('input[name="turnstileToken"]');
     const error = document.querySelector('[data-error-for="turnstileToken"]');
     if (input) {
@@ -1161,7 +1192,6 @@ window.onTurnstileError = function () {
     const verification = document.querySelector('.verification-wrap');
     if (verification) verification.classList.add('has-error');
     setContactVerificationState(false);
-    const form = document.getElementById('contactForm');
     setTurnstileGateState(form, 'error', {
         title: 'The security check did not load',
         message: 'Check your connection or content blocker, then try again.',
