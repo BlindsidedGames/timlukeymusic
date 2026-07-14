@@ -149,13 +149,6 @@ export async function sendContactEmail(payload, env) {
     const enquiryType = /\b(?:enquiry|inquiry|enquiries|inquiries)$/i.test(payload.service)
         ? payload.service
         : payload.service + ' enquiry';
-    const messageText = [
-        'Name: ' + payload.name,
-        'Email: ' + payload.email,
-        'Service: ' + payload.service,
-        '',
-        payload.message
-    ].join('\n');
 
     const response = await fetch('https://api.resend.com/emails', {
         method: 'POST',
@@ -168,7 +161,7 @@ export async function sendContactEmail(payload, env) {
             to: [env.CONTACT_TO_EMAIL],
             reply_to: payload.email,
             subject: enquiryType + ' from ' + payload.name,
-            text: messageText
+            text: payload.message
         })
     });
 
