@@ -164,7 +164,7 @@ export async function sendContactEmail(payload, env) {
             from,
             to: [env.CONTACT_TO_EMAIL],
             reply_to: payload.email,
-            subject: '[Website Contact] ' + payload.service + ' enquiry from ' + payload.name,
+            subject: payload.service + ' from ' + payload.name,
             text: messageText
         })
     });
